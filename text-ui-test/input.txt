@@ -6,4 +6,10 @@ mark 1
 list
 unmark 1
 list
+todo
+deadline /by tomorrow
+deadline hey
+event /from today /to tomorrow
+event sleep /from today
+event sleep /to tomorrow
 bye
