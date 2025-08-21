@@ -1,0 +1,9 @@
+todo read book
+deadline return book /by 31st August
+event book club /from 1 Sept, 2pm /to 1 Sept, 4pm
+list
+mark 1
+list
+unmark 1
+list
+bye
