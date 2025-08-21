@@ -21,13 +21,7 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        String doneMark;
-        if (this.isDone) {
-            doneMark = "X";
-        } else {
-            doneMark = " ";
-        }
 
-        return String.format("[%s] %s", doneMark, this.description);
+        return String.format("[%s]%s", this.getStatusIcon(), this.description);
     }
 }
