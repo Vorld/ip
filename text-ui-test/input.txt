@@ -12,5 +12,6 @@ deadline hey
 event /from today /to tomorrow
 event sleep /from today
 event sleep /to tomorrow
+test
 delete 1
 bye

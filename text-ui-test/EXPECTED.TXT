@@ -46,7 +46,8 @@ Here are the tasks in your list:
 2.[D][ ] return book (by: 31st August)
 3.[E][ ] book club (from: 1 Sept, 2pm to: 1 Sept, 4pm)
 ____________________________________________________________
-Oops! That's not a real Chuck command!
+____________________________________________________________
+Oops! Your description can't be empty :(
 ____________________________________________________________
 ____________________________________________________________
 Oops! Your description can't be empty :(
@@ -62,6 +63,8 @@ Ensure you have a /to date for event tasks!
 ____________________________________________________________
 ____________________________________________________________
 Ensure you have a /from date for event tasks!
+____________________________________________________________
+Oops! That's not a real Chuck command!
 ____________________________________________________________
 ____________________________________________________________
 Noted. I've removed this task:

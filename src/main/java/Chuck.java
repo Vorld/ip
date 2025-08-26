@@ -14,21 +14,28 @@ public class Chuck {
         while (true) {
             try {
                 String input = scanner.nextLine();
-                if (input.equals("bye")) {
+                Command command = Command.fromString(input);
+
+                if (command == null) {
+                    throw new ChuckException("Oops! That's not a real Chuck command!");
+                }
+
+                switch (command) {
+                case BYE: {
                     System.out.println("____________________________________________________________");
                     System.out.println("See you around!");
                     System.out.println("____________________________________________________________");
-                    break;
-                } else if (input.equals("list")) {
+                    return;
+                }
+                case LIST:{
                     System.out.println("____________________________________________________________");
                     System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < taskList.size(); i++) {
-                        if (taskList.get(i) == null) {
-                            break;
-                        }
                         System.out.println((i + 1) + "." + taskList.get(i));
                     }
-                } else if (input.startsWith("delete ")) {
+                    break;
+                }
+                case DELETE: {
                     System.out.println("____________________________________________________________");
                     String taskNumberStr = input.substring(7);
                     int taskNumber = Integer.parseInt(taskNumberStr);
@@ -36,8 +43,9 @@ public class Chuck {
                     System.out.println("Noted. I've removed this task:");
                     System.out.println(taskList.get(taskNumber - 1));
                     taskList.remove(taskNumber - 1);
-
-                } else if (input.startsWith("mark ")) {
+                    break;
+                }
+                case MARK: {
                     System.out.println("____________________________________________________________");
                     String taskNumberStr = input.substring(5);
                     int taskNumber = Integer.parseInt(taskNumberStr);
@@ -45,7 +53,9 @@ public class Chuck {
                     taskList.get(taskNumber - 1).markDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println(taskList.get(taskNumber - 1));
-                } else if (input.startsWith("unmark ")) {
+                    break;
+                }
+                case UNMARK: {
                     System.out.println("____________________________________________________________");
                     String taskNumberStr = input.substring(7);
                     int taskNumber = Integer.parseInt(taskNumberStr);
@@ -53,7 +63,9 @@ public class Chuck {
                     taskList.get(taskNumber - 1).unmarkDone();
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println(taskList.get(taskNumber - 1));
-                } else if (input.startsWith("todo ")) {
+                    break;
+                }
+                case TODO: {
                     System.out.println("____________________________________________________________");
                     String description = input.substring(4);
 
@@ -63,10 +75,11 @@ public class Chuck {
 
                     taskList.add(new Todo(description));
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(taskList.get(taskList.size()-1));
+                    System.out.println(taskList.get(taskList.size() - 1));
                     System.out.println("Now you have " + taskList.size() + " tasks in the list.");
-
-                } else if (input.startsWith("deadline ")) {
+                    break;
+                }
+                case DEADLINE: {
                     System.out.println("____________________________________________________________");
                     String rest = input.substring(8);
 
@@ -88,10 +101,11 @@ public class Chuck {
 
                     taskList.add(new Deadline(description, by));
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(taskList.get(taskList.size()-1));
+                    System.out.println(taskList.get(taskList.size() - 1));
                     System.out.println("Now you have " + (taskList.size()) + " tasks in the list.");
-
-                } else if (input.startsWith("event ")) {
+                    break;
+                }
+                case EVENT: {
                     System.out.println("____________________________________________________________");
                     String rest = input.substring(5);
 
@@ -121,11 +135,10 @@ public class Chuck {
 
                     taskList.add(new Event(description, from, to));
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(taskList.get(taskList.size()-1));
+                    System.out.println(taskList.get(taskList.size() - 1));
                     System.out.println("Now you have " + (taskList.size()) + " tasks in the list.");
-
-                } else {
-                    throw new ChuckException("Oops! That's not a real Chuck command!");
+                    break;
+                }
                 }
 
                 System.out.println("____________________________________________________________");
