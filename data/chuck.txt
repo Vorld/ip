@@ -1,1 +1,4 @@
-D | false | return book | 2019-01-20 06:00
+D | true | return book | 2019-01-20 06:00
+T | false | eat potatoes
+D | false | return book | 2022-01-02 12:01
+E | false | churros | 2022-01-02 12:01 | 2022-01-02 12:02
