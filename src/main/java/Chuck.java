@@ -7,8 +7,8 @@ public class Chuck {
         Ui ui = new Ui();
         ui.showWelcome();
 
-        ArrayList<Task> tasks = new ArrayList<>();
         Storage storage = new Storage();
+        TaskList tasks = new TaskList();
         
         try {
             tasks = storage.loadTasks();
@@ -32,8 +32,8 @@ public class Chuck {
                 }
                 case LIST:{
                     StringBuilder listMessage = new StringBuilder("Here are the tasks in your list:\n");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        listMessage.append((i + 1)).append(".").append(tasks.get(i)).append("\n");
+                    for (int i = 1; i <= tasks.size(); i++) {
+                        listMessage.append(i).append(".").append(tasks.get(i)).append("\n");
                     }
                     ui.showMessage(listMessage.toString().trim());
                     break;
@@ -42,8 +42,8 @@ public class Chuck {
                     String[] commandArgs = Parser.parseArguments(input, command);
                     int taskNumber = Integer.parseInt(commandArgs[0]);
 
-                    Task deletedTask = tasks.get(taskNumber - 1);
-                    tasks.remove(taskNumber - 1);
+                    Task deletedTask = tasks.get(taskNumber);
+                    tasks.delete(taskNumber);
                     ui.showMessage("Noted. I've removed this task:\n" + deletedTask);
                     break;
                 }
@@ -51,16 +51,16 @@ public class Chuck {
                     String[] commandArgs = Parser.parseArguments(input, command);
                     int taskNumber = Integer.parseInt(commandArgs[0]);
 
-                    tasks.get(taskNumber - 1).markDone();
-                    ui.showMessage("Nice! I've marked this task as done:\n" + tasks.get(taskNumber - 1));
+                    tasks.get(taskNumber).markDone();
+                    ui.showMessage("Nice! I've marked this task as done:\n" + tasks.get(taskNumber));
                     break;
                 }
                 case UNMARK: {
                     String[] commandArgs = Parser.parseArguments(input, command);
                     int taskNumber = Integer.parseInt(commandArgs[0]);
 
-                    tasks.get(taskNumber - 1).unmarkDone();
-                    ui.showMessage("OK, I've marked this task as not done yet:\n" + tasks.get(taskNumber - 1));
+                    tasks.get(taskNumber).unmarkDone();
+                    ui.showMessage("OK, I've marked this task as not done yet:\n" + tasks.get(taskNumber));
                     break;
                 }
                 case TODO: {
@@ -72,7 +72,7 @@ public class Chuck {
                     }
 
                     tasks.add(new Todo(description));
-                    Task addedTask = tasks.get(tasks.size() - 1);
+                    Task addedTask = tasks.get(tasks.size());
                     ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
                 }
@@ -97,7 +97,7 @@ public class Chuck {
 
                     LocalDateTime byDateTime = Parser.parseDateTime(by);
                     tasks.add(new Deadline(description, byDateTime));
-                    Task addedTask = tasks.get(tasks.size() - 1);
+                    Task addedTask = tasks.get(tasks.size());
                     ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
                 }
@@ -130,7 +130,7 @@ public class Chuck {
                     LocalDateTime fromDateTime = Parser.parseDateTime(from);
                     LocalDateTime toDateTime = Parser.parseDateTime(to);
                     tasks.add(new Event(description, fromDateTime, toDateTime));
-                    Task addedTask = tasks.get(tasks.size() - 1);
+                    Task addedTask = tasks.get(tasks.size());
                     ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
                 } case SAVE: {

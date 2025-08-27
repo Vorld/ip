@@ -10,7 +10,7 @@ public class Storage {
     private static final String FILE_PATH = "./data";
     private static final String FILE_NAME = "chuck.txt";
 
-    public ArrayList<Task> loadTasks() throws ChuckException {
+    public TaskList loadTasks() throws ChuckException {
         ArrayList<Task> tasks = new ArrayList<>();
 
         try {
@@ -57,10 +57,10 @@ public class Storage {
             System.out.println("Dates are formatted wrongly in the save file! Continuing anyways...");
         }
 
-        return tasks;
+        return new TaskList(tasks);
     }
 
-    public void saveTasks(ArrayList<Task> tasks) throws ChuckException {
+    public void saveTasks(TaskList tasks) throws ChuckException {
         try {
             File directory = new File(FILE_PATH);
             if (!directory.exists()) {
@@ -69,7 +69,7 @@ public class Storage {
             
             PrintWriter out = new PrintWriter(FILE_PATH + "/" + FILE_NAME);
 
-            for (Task t: tasks) {
+            for (Task t: tasks.getTasks()) {
                 out.println(t.saveString());
             }
 
