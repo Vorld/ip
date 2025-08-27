@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -7,6 +10,7 @@ import java.util.Scanner;
 public class Storage {
     private static final String FILE_PATH = "./data";
     private static final String FILE_NAME = "chuck.txt";
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -20,25 +24,32 @@ public class Storage {
                 String type = lineData[0].trim();
 
                 switch (type) {
-                case "T": {
+                case Todo.SHORT_HAND: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     tasks.add(new Todo(description, isDone));
                     break;
                 }
-                case "D": {
+                case Deadline.SHORT_HAND: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     String by = lineData[3].trim();
-                    tasks.add(new Deadline(description, isDone, by));
+
+                    LocalDateTime byDateTime = LocalDateTime.parse(by, INPUT_FORMATTER);
+
+                    tasks.add(new Deadline(description, isDone, byDateTime));
                     break;
                 }
-                case "E": {
+                case Event.SHORT_HAND: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     String from = lineData[3].trim();
                     String to = lineData[4].trim();
-                    tasks.add(new Event(description, isDone, from, to));
+
+                    LocalDateTime fromDateTime = LocalDateTime.parse(from, INPUT_FORMATTER);
+                    LocalDateTime toDateTime = LocalDateTime.parse(to, INPUT_FORMATTER);
+
+                    tasks.add(new Event(description, isDone, fromDateTime, toDateTime));
                     break;
                 }
                 }
@@ -46,6 +57,8 @@ public class Storage {
 
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Couldn't find a save file! Continuing anyways...");
+        } catch (DateTimeParseException dateTimeParseException) {
+            System.out.println("Dates are formatted wrongly in the save file! Continuing anyways...");
         }
 
         return tasks;
