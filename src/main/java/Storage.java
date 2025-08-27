@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.io.PrintWriter;
@@ -8,6 +10,7 @@ import java.util.Scanner;
 public class Storage {
     private static final String FILE_PATH = "./data";
     private static final String FILE_NAME = "chuck.txt";
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -31,7 +34,10 @@ public class Storage {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     String by = lineData[3].trim();
-                    tasks.add(new Deadline(description, isDone, by));
+
+                    LocalDateTime byDateTime = LocalDateTime.parse(by, INPUT_FORMATTER);
+
+                    tasks.add(new Deadline(description, isDone, byDateTime));
                     break;
                 }
                 case Event.SHORT_HAND: {
@@ -39,7 +45,11 @@ public class Storage {
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     String from = lineData[3].trim();
                     String to = lineData[4].trim();
-                    tasks.add(new Event(description, isDone, from, to));
+
+                    LocalDateTime fromDateTime = LocalDateTime.parse(from, INPUT_FORMATTER);
+                    LocalDateTime toDateTime = LocalDateTime.parse(to, INPUT_FORMATTER);
+
+                    tasks.add(new Event(description, isDone, fromDateTime, toDateTime));
                     break;
                 }
                 }

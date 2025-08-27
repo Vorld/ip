@@ -10,25 +10,18 @@ public class Event extends Task{
     protected LocalDateTime from;
     protected LocalDateTime to;
 
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
-        try {
-            this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
-            this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid datetime format! Use yyyy-MM-dd HH:mm");
-        }
+        this.from = from;
+        this.to = to;
     }
 
-    public Event(String description, boolean isDone, String from, String to) {
+    public Event(String description, boolean isDone, LocalDateTime from, LocalDateTime to) {
         super(description, isDone);
-        try {
-            this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
-            this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid datetime format! Use yyyy-MM-dd HH:mm");
-        }
+        this.from = from;
+        this.to = to;
     }
+
 
     @Override
     public String toString() {

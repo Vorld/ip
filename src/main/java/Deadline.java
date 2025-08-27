@@ -9,23 +9,16 @@ public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy h:mma");
     protected LocalDateTime by;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDateTime by) {
         super(description);
-        try {
-            this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
-        } catch (DateTimeParseException dateTimeParseException) {
-            System.out.println("Invalid date format! Use yyyy-MM-dd HH:mm");
-        }
+        this.by = by;
     }
 
-    public Deadline(String description, boolean isDone, String by) {
+    public Deadline(String description, boolean isDone, LocalDateTime by) {
         super(description, isDone);
-        try {
-            this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
-        } catch (DateTimeParseException dateTimeParseException) {
-            System.out.println("Invalid date format! Use yyyy-MM-dd HH:mm");
-        }
+        this.by = by;
     }
+
 
     @Override
     public String toString() {

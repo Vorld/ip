@@ -1,8 +1,20 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Chuck {
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    private static LocalDateTime parseDateTime(String dateTimeString) throws ChuckException {
+        try {
+            return LocalDateTime.parse(dateTimeString, INPUT_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new ChuckException("Invalid date format! Use yyyy-MM-dd HH:mm");
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("____________________________________________________________\n");
         System.out.println("Hey! I'm Chuck, short for Charlie.\n");
@@ -78,6 +90,7 @@ public class Chuck {
                     }
 
                     tasks.add(new Todo(description));
+
                     System.out.println("Got it. I've added this task:");
                     System.out.println(tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -103,7 +116,9 @@ public class Chuck {
                         throw new ChuckException("Oops! Your by date can't be empty :(");
                     }
 
-                    tasks.add(new Deadline(description, by));
+                    LocalDateTime byDateTime = parseDateTime(by);
+                    tasks.add(new Deadline(description, byDateTime));
+
                     System.out.println("Got it. I've added this task:");
                     System.out.println(tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + (tasks.size()) + " tasks in the list.");
@@ -122,7 +137,6 @@ public class Chuck {
 
                     String description = rest.substring(0, rest.indexOf("/from ")).trim();
 
-
                     if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
@@ -137,7 +151,10 @@ public class Chuck {
                         throw new ChuckException("Oops! Your to date can't be empty :(");
                     }
 
-                    tasks.add(new Event(description, from, to));
+                    LocalDateTime fromDateTime = parseDateTime(from);
+                    LocalDateTime toDateTime = parseDateTime(to);
+                    tasks.add(new Event(description, fromDateTime, toDateTime));
+
                     System.out.println("Got it. I've added this task:");
                     System.out.println(tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + (tasks.size()) + " tasks in the list.");
