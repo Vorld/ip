@@ -8,7 +8,10 @@ public class Chuck {
         System.out.println("How can I help you?\n");
         System.out.println("____________________________________________________________");
 
-        ArrayList<Task> taskList = new ArrayList<>();
+        ArrayList<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage();
+        tasks = storage.loadTasks();
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -30,8 +33,8 @@ public class Chuck {
                 case LIST:{
                     System.out.println("____________________________________________________________");
                     System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < taskList.size(); i++) {
-                        System.out.println((i + 1) + "." + taskList.get(i));
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + "." + tasks.get(i));
                     }
                     break;
                 }
@@ -41,8 +44,8 @@ public class Chuck {
                     int taskNumber = Integer.parseInt(taskNumberStr);
 
                     System.out.println("Noted. I've removed this task:");
-                    System.out.println(taskList.get(taskNumber - 1));
-                    taskList.remove(taskNumber - 1);
+                    System.out.println(tasks.get(taskNumber - 1));
+                    tasks.remove(taskNumber - 1);
                     break;
                 }
                 case MARK: {
@@ -50,9 +53,9 @@ public class Chuck {
                     String taskNumberStr = input.substring(5);
                     int taskNumber = Integer.parseInt(taskNumberStr);
 
-                    taskList.get(taskNumber - 1).markDone();
+                    tasks.get(taskNumber - 1).markDone();
                     System.out.println("Nice! I've marked this task as done:");
-                    System.out.println(taskList.get(taskNumber - 1));
+                    System.out.println(tasks.get(taskNumber - 1));
                     break;
                 }
                 case UNMARK: {
@@ -60,54 +63,54 @@ public class Chuck {
                     String taskNumberStr = input.substring(7);
                     int taskNumber = Integer.parseInt(taskNumberStr);
 
-                    taskList.get(taskNumber - 1).unmarkDone();
+                    tasks.get(taskNumber - 1).unmarkDone();
                     System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println(taskList.get(taskNumber - 1));
+                    System.out.println(tasks.get(taskNumber - 1));
                     break;
                 }
                 case TODO: {
                     System.out.println("____________________________________________________________");
-                    String description = input.substring(4);
+                    String description = input.substring(4).trim();
 
-                    if (description.trim().isEmpty()) {
+                    if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
 
-                    taskList.add(new Todo(description));
+                    tasks.add(new Todo(description));
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(taskList.get(taskList.size() - 1));
-                    System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                    System.out.println(tasks.get(tasks.size() - 1));
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                     break;
                 }
                 case DEADLINE: {
                     System.out.println("____________________________________________________________");
-                    String rest = input.substring(8);
+                    String rest = input.substring(8).trim();
 
                     if (!rest.contains(" /by ")) {
                         throw new ChuckException("Ensure you have a /by date for deadline tasks!");
                     }
 
-                    String description = rest.substring(0, rest.indexOf(" /by "));
+                    String description = rest.substring(0, rest.indexOf(" /by ")).trim();
 
-                    if (description.trim().isEmpty()) {
+                    if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
 
-                    String by = rest.substring(rest.indexOf("/by ") + 4);
+                    String by = rest.substring(rest.indexOf("/by ") + 4).trim();
 
-                    if (by.trim().isEmpty()) {
+                    if (by.isEmpty()) {
                         throw new ChuckException("Oops! Your by date can't be empty :(");
                     }
 
-                    taskList.add(new Deadline(description, by));
+                    tasks.add(new Deadline(description, by));
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(taskList.get(taskList.size() - 1));
-                    System.out.println("Now you have " + (taskList.size()) + " tasks in the list.");
+                    System.out.println(tasks.get(tasks.size() - 1));
+                    System.out.println("Now you have " + (tasks.size()) + " tasks in the list.");
                     break;
                 }
                 case EVENT: {
                     System.out.println("____________________________________________________________");
-                    String rest = input.substring(5);
+                    String rest = input.substring(5).trim();
 
                     if (!rest.contains(" /from ")) {
                         throw new ChuckException("Ensure you have a /from date for event tasks!");
@@ -116,28 +119,31 @@ public class Chuck {
                         throw new ChuckException("Ensure you have a /to date for event tasks!");
                     }
 
-                    String description = rest.substring(0, rest.indexOf(" /from "));
+                    String description = rest.substring(0, rest.indexOf(" /from ")).trim();
 
 
-                    if (description.trim().isEmpty()) {
+                    if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
 
-                    String from = rest.substring(rest.indexOf("/from ") + 6, rest.indexOf(" /to "));
-                    String to = rest.substring(rest.indexOf("/to ") + 4);
+                    String from = rest.substring(rest.indexOf("/from ") + 6, rest.indexOf(" /to ")).trim();
+                    String to = rest.substring(rest.indexOf("/to ") + 4).trim();
 
-                    if (from.trim().isEmpty()) {
+                    if (from.isEmpty()) {
                         throw new ChuckException("Oops! Your from date can't be empty :(");
                     }
-                    if (to.trim().isEmpty()) {
+                    if (to.isEmpty()) {
                         throw new ChuckException("Oops! Your to date can't be empty :(");
                     }
 
-                    taskList.add(new Event(description, from, to));
+                    tasks.add(new Event(description, from, to));
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(taskList.get(taskList.size() - 1));
-                    System.out.println("Now you have " + (taskList.size()) + " tasks in the list.");
+                    System.out.println(tasks.get(tasks.size() - 1));
+                    System.out.println("Now you have " + (tasks.size()) + " tasks in the list.");
                     break;
+                } case SAVE: {
+                    System.out.println("Saved your tasks to hard disk!");
+                    storage.saveTasks(tasks);
                 }
                 }
 

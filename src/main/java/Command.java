@@ -6,6 +6,7 @@ public enum Command {
     MARK("mark"),
     UNMARK("unmark"),
     DELETE("delete"),
+    SAVE("save"),
     BYE("bye");
 
     private final String command;
