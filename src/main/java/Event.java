@@ -1,12 +1,7 @@
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Event extends Task{
     public static final String SHORT_HAND = "E";
-    
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy h:mma");
     protected LocalDateTime from;
     protected LocalDateTime to;
 
@@ -25,11 +20,11 @@ public class Event extends Task{
 
     @Override
     public String toString() {
-        return String.format("[%s]%s (from: %s to: %s)", SHORT_HAND, super.toString(), this.from.format(OUTPUT_FORMATTER), this.to.format(OUTPUT_FORMATTER));
+        return String.format("[%s]%s (from: %s to: %s)", SHORT_HAND, super.toString(), Parser.formatDateTime(this.from), Parser.formatDateTime(this.to));
     }
 
     @Override
     public String saveString() {
-        return String.format("%s | %s | %s | %s", "E", super.saveString(), this.from.format(INPUT_FORMATTER), this.to.format(INPUT_FORMATTER));
+        return String.format("%s | %s | %s | %s", "E", super.saveString(), Parser.formatDateTimeForSave(this.from), Parser.formatDateTimeForSave(this.to));
     }
 }

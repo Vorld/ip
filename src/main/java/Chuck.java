@@ -1,18 +1,7 @@
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class Chuck {
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-    private static LocalDateTime parseDateTime(String dateTimeString) throws ChuckException {
-        try {
-            return LocalDateTime.parse(dateTimeString, INPUT_FORMATTER);
-        } catch (DateTimeParseException e) {
-            throw new ChuckException("Invalid date format! Use yyyy-MM-dd HH:mm");
-        }
-    }
 
     public static void main(String[] args) {
         Ui ui = new Ui();
@@ -20,12 +9,17 @@ public class Chuck {
 
         ArrayList<Task> tasks = new ArrayList<>();
         Storage storage = new Storage();
-        tasks = storage.loadTasks();
+        
+        try {
+            tasks = storage.loadTasks();
+        } catch (ChuckException ce) {
+            ui.showMessage("Error loading tasks: " + ce.getMessage() + "\nStarting with empty task list.");
+        }
 
         while (true) {
             try {
                 String input = ui.readCommand();
-                Command command = Command.fromString(input);
+                Command command = Parser.parseCommand(input);
 
                 if (command == null) {
                     throw new ChuckException("Oops! That's not a real Chuck command!");
@@ -45,8 +39,8 @@ public class Chuck {
                     break;
                 }
                 case DELETE: {
-                    String taskNumberStr = input.substring(7);
-                    int taskNumber = Integer.parseInt(taskNumberStr);
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    int taskNumber = Integer.parseInt(commandArgs[0]);
 
                     Task deletedTask = tasks.get(taskNumber - 1);
                     tasks.remove(taskNumber - 1);
@@ -54,23 +48,24 @@ public class Chuck {
                     break;
                 }
                 case MARK: {
-                    String taskNumberStr = input.substring(5);
-                    int taskNumber = Integer.parseInt(taskNumberStr);
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    int taskNumber = Integer.parseInt(commandArgs[0]);
 
                     tasks.get(taskNumber - 1).markDone();
                     ui.showMessage("Nice! I've marked this task as done:\n" + tasks.get(taskNumber - 1));
                     break;
                 }
                 case UNMARK: {
-                    String taskNumberStr = input.substring(7);
-                    int taskNumber = Integer.parseInt(taskNumberStr);
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    int taskNumber = Integer.parseInt(commandArgs[0]);
 
                     tasks.get(taskNumber - 1).unmarkDone();
                     ui.showMessage("OK, I've marked this task as not done yet:\n" + tasks.get(taskNumber - 1));
                     break;
                 }
                 case TODO: {
-                    String description = input.substring(4).trim();
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    String description = commandArgs[0];
 
                     if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
@@ -88,19 +83,19 @@ public class Chuck {
                         throw new ChuckException("Ensure you have a /by date for deadline tasks!");
                     }
 
-                    String description = rest.substring(0, rest.indexOf("/by ")).trim();
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    String description = commandArgs[0];
+                    String by = commandArgs[1];
 
                     if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
 
-                    String by = rest.substring(rest.indexOf("/by ") + 4).trim();
-
                     if (by.isEmpty()) {
                         throw new ChuckException("Oops! Your by date can't be empty :(");
                     }
 
-                    LocalDateTime byDateTime = parseDateTime(by);
+                    LocalDateTime byDateTime = Parser.parseDateTime(by);
                     tasks.add(new Deadline(description, byDateTime));
                     Task addedTask = tasks.get(tasks.size() - 1);
                     ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
@@ -116,14 +111,14 @@ public class Chuck {
                         throw new ChuckException("Ensure you have a /to date for event tasks!");
                     }
 
-                    String description = rest.substring(0, rest.indexOf("/from ")).trim();
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    String description = commandArgs[0];
+                    String from = commandArgs[1];
+                    String to = commandArgs[2];
 
                     if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
-
-                    String from = rest.substring(rest.indexOf("/from ") + 6, rest.indexOf("/to ")).trim();
-                    String to = rest.substring(rest.indexOf("/to ") + 4).trim();
 
                     if (from.isEmpty()) {
                         throw new ChuckException("Oops! Your from date can't be empty :(");
@@ -132,8 +127,8 @@ public class Chuck {
                         throw new ChuckException("Oops! Your to date can't be empty :(");
                     }
 
-                    LocalDateTime fromDateTime = parseDateTime(from);
-                    LocalDateTime toDateTime = parseDateTime(to);
+                    LocalDateTime fromDateTime = Parser.parseDateTime(from);
+                    LocalDateTime toDateTime = Parser.parseDateTime(to);
                     tasks.add(new Event(description, fromDateTime, toDateTime));
                     Task addedTask = tasks.get(tasks.size() - 1);
                     ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
