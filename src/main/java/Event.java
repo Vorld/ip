@@ -1,4 +1,5 @@
 public class Event extends Task{
+    private static final String SHORT_HAND = "E";
     protected String from;
     protected String to;
 
@@ -16,7 +17,7 @@ public class Event extends Task{
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return String.format("[%s]%s (from: %s to: %s)", SHORT_HAND, super.toString(), this.from, this.to);
     }
 
     @Override

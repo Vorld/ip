@@ -1,4 +1,5 @@
 public class Todo extends Task{
+    private static final String SHORT_HAND = "T";
 
     public Todo(String description) {
         super(description);
@@ -10,7 +11,7 @@ public class Todo extends Task{
 
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return String.format("[%s]%s", SHORT_HAND, super.toString());
     }
 
     @Override

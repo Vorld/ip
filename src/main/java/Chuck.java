@@ -86,11 +86,11 @@ public class Chuck {
                     System.out.println("____________________________________________________________");
                     String rest = input.substring(8).trim();
 
-                    if (!rest.contains(" /by ")) {
+                    if (!rest.contains("/by ")) {
                         throw new ChuckException("Ensure you have a /by date for deadline tasks!");
                     }
 
-                    String description = rest.substring(0, rest.indexOf(" /by ")).trim();
+                    String description = rest.substring(0, rest.indexOf("/by ")).trim();
 
                     if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
@@ -112,21 +112,21 @@ public class Chuck {
                     System.out.println("____________________________________________________________");
                     String rest = input.substring(5).trim();
 
-                    if (!rest.contains(" /from ")) {
+                    if (!rest.contains("/from ")) {
                         throw new ChuckException("Ensure you have a /from date for event tasks!");
                     }
-                    if (!rest.contains(" /to ")) {
+                    if (!rest.contains("/to ")) {
                         throw new ChuckException("Ensure you have a /to date for event tasks!");
                     }
 
-                    String description = rest.substring(0, rest.indexOf(" /from ")).trim();
+                    String description = rest.substring(0, rest.indexOf("/from ")).trim();
 
 
                     if (description.isEmpty()) {
                         throw new ChuckException("Oops! Your description can't be empty :(");
                     }
 
-                    String from = rest.substring(rest.indexOf("/from ") + 6, rest.indexOf(" /to ")).trim();
+                    String from = rest.substring(rest.indexOf("/from ") + 6, rest.indexOf("/to ")).trim();
                     String to = rest.substring(rest.indexOf("/to ") + 4).trim();
 
                     if (from.isEmpty()) {

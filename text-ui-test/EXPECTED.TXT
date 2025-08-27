@@ -5,6 +5,7 @@ Hey! I'm Chuck, short for Charlie.
 How can I help you?
 
 ____________________________________________________________
+Couldn't find a save file! Continuing anyways...
 ____________________________________________________________
 Got it. I've added this task:
 [T][ ] read book

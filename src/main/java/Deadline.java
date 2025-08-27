@@ -1,4 +1,10 @@
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Deadline extends Task{
+    private static final String SHORT_HAND = "D";
     protected String by;
 
     public Deadline(String description, String by) {
@@ -13,11 +19,11 @@ public class Deadline extends Task{
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return String.format("[%s]%s (by: %s)", SHORT_HAND, super.toString(), this.by);
     }
 
     @Override
     public String saveString() {
-        return String.format("%s | %s | %s", "D", super.saveString(), this.by);
+        return String.format("%s | %s | %s", SHORT_HAND, super.saveString(), this.by);
     }
 }
