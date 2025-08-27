@@ -2,7 +2,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Chuck {
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -16,20 +15,16 @@ public class Chuck {
     }
 
     public static void main(String[] args) {
-        System.out.println("____________________________________________________________\n");
-        System.out.println("Hey! I'm Chuck, short for Charlie.\n");
-        System.out.println("How can I help you?\n");
-        System.out.println("____________________________________________________________");
+        Ui ui = new Ui();
+        ui.showWelcome();
 
         ArrayList<Task> tasks = new ArrayList<>();
         Storage storage = new Storage();
         tasks = storage.loadTasks();
 
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
             try {
-                String input = scanner.nextLine();
+                String input = ui.readCommand();
                 Command command = Command.fromString(input);
 
                 if (command == null) {
@@ -38,51 +33,43 @@ public class Chuck {
 
                 switch (command) {
                 case BYE: {
-                    System.out.println("____________________________________________________________");
-                    System.out.println("See you around!");
-                    System.out.println("____________________________________________________________");
+                    ui.showMessage("See you around!");
                     return;
                 }
                 case LIST:{
-                    System.out.println("____________________________________________________________");
-                    System.out.println("Here are the tasks in your list:");
+                    StringBuilder listMessage = new StringBuilder("Here are the tasks in your list:\n");
                     for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + "." + tasks.get(i));
+                        listMessage.append((i + 1)).append(".").append(tasks.get(i)).append("\n");
                     }
+                    ui.showMessage(listMessage.toString().trim());
                     break;
                 }
                 case DELETE: {
-                    System.out.println("____________________________________________________________");
                     String taskNumberStr = input.substring(7);
                     int taskNumber = Integer.parseInt(taskNumberStr);
 
-                    System.out.println("Noted. I've removed this task:");
-                    System.out.println(tasks.get(taskNumber - 1));
+                    Task deletedTask = tasks.get(taskNumber - 1);
                     tasks.remove(taskNumber - 1);
+                    ui.showMessage("Noted. I've removed this task:\n" + deletedTask);
                     break;
                 }
                 case MARK: {
-                    System.out.println("____________________________________________________________");
                     String taskNumberStr = input.substring(5);
                     int taskNumber = Integer.parseInt(taskNumberStr);
 
                     tasks.get(taskNumber - 1).markDone();
-                    System.out.println("Nice! I've marked this task as done:");
-                    System.out.println(tasks.get(taskNumber - 1));
+                    ui.showMessage("Nice! I've marked this task as done:\n" + tasks.get(taskNumber - 1));
                     break;
                 }
                 case UNMARK: {
-                    System.out.println("____________________________________________________________");
                     String taskNumberStr = input.substring(7);
                     int taskNumber = Integer.parseInt(taskNumberStr);
 
                     tasks.get(taskNumber - 1).unmarkDone();
-                    System.out.println("OK, I've marked this task as not done yet:");
-                    System.out.println(tasks.get(taskNumber - 1));
+                    ui.showMessage("OK, I've marked this task as not done yet:\n" + tasks.get(taskNumber - 1));
                     break;
                 }
                 case TODO: {
-                    System.out.println("____________________________________________________________");
                     String description = input.substring(4).trim();
 
                     if (description.isEmpty()) {
@@ -90,14 +77,11 @@ public class Chuck {
                     }
 
                     tasks.add(new Todo(description));
-
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(tasks.get(tasks.size() - 1));
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    Task addedTask = tasks.get(tasks.size() - 1);
+                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
                 }
                 case DEADLINE: {
-                    System.out.println("____________________________________________________________");
                     String rest = input.substring(8).trim();
 
                     if (!rest.contains("/by ")) {
@@ -118,14 +102,11 @@ public class Chuck {
 
                     LocalDateTime byDateTime = parseDateTime(by);
                     tasks.add(new Deadline(description, byDateTime));
-
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(tasks.get(tasks.size() - 1));
-                    System.out.println("Now you have " + (tasks.size()) + " tasks in the list.");
+                    Task addedTask = tasks.get(tasks.size() - 1);
+                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
                 }
                 case EVENT: {
-                    System.out.println("____________________________________________________________");
                     String rest = input.substring(5).trim();
 
                     if (!rest.contains("/from ")) {
@@ -154,21 +135,17 @@ public class Chuck {
                     LocalDateTime fromDateTime = parseDateTime(from);
                     LocalDateTime toDateTime = parseDateTime(to);
                     tasks.add(new Event(description, fromDateTime, toDateTime));
-
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(tasks.get(tasks.size() - 1));
-                    System.out.println("Now you have " + (tasks.size()) + " tasks in the list.");
+                    Task addedTask = tasks.get(tasks.size() - 1);
+                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
                 } case SAVE: {
-                    System.out.println("Saved your tasks to hard disk!");
                     storage.saveTasks(tasks);
+                    ui.showMessage("Saved your tasks to hard disk!");
                 }
                 }
 
-                System.out.println("____________________________________________________________");
             } catch (ChuckException ce) {
-                System.out.println(ce.getMessage());
-                System.out.println("____________________________________________________________");
+                ui.showMessage(ce.getMessage());
             }
         }
 
