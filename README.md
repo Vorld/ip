@@ -24,3 +24,13 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
    ```
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+
+
+Acknowledgements:
+1. Claude Code
+
+It is interesting to see how Claude Code could help with the process even if I never allow it to directly
+code in my project. My approach is mostly to treat it like a senior architect/developer and asking questions about
+design decisions (e.g. "Right now parsing of DateTimes throughout my project are all spread across classes, what are some
+ways I can design my program better to avoid this?"). Other than this, I also find Claude Code
+useful to generate Test stubs.

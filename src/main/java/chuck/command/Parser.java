@@ -17,9 +17,9 @@ public class Parser {
         switch (command) {
         case MARK:
         case UNMARK:
-            return new String[]{input.substring(command == Command.MARK ? 5 : 7)};
+            return new String[]{input.substring(command == Command.MARK ? 5 : 7).trim()};
         case DELETE:
-            return new String[]{input.substring(7)};
+            return new String[]{input.substring(7).trim()};
         case TODO:
             return new String[]{input.substring(4).trim()};
         case DEADLINE:
