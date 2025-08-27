@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -20,20 +21,20 @@ public class Storage {
                 String type = lineData[0].trim();
 
                 switch (type) {
-                case "T": {
+                case Todo.SHORT_HAND: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     tasks.add(new Todo(description, isDone));
                     break;
                 }
-                case "D": {
+                case Deadline.SHORT_HAND: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     String by = lineData[3].trim();
                     tasks.add(new Deadline(description, isDone, by));
                     break;
                 }
-                case "E": {
+                case Event.SHORT_HAND: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     String from = lineData[3].trim();
@@ -46,6 +47,8 @@ public class Storage {
 
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Couldn't find a save file! Continuing anyways...");
+        } catch (DateTimeParseException dateTimeParseException) {
+            System.out.println("Dates are formatted wrongly in the save file! Continuing anyways...");
         }
 
         return tasks;

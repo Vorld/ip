@@ -13,19 +13,19 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[D][ ] return book (by: 31st August)
+[D][ ] return book (by: Jan 01 2025 10:00am)
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[E][ ] book club (from: 1 Sept, 2pm to: 1 Sept, 4pm)
+[E][ ] book club (from: Jan 01 2025 10:00am to: Feb 01 2025 10:00am)
 Now you have 3 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book
-2.[D][ ] return book (by: 31st August)
-3.[E][ ] book club (from: 1 Sept, 2pm to: 1 Sept, 4pm)
+2.[D][ ] return book (by: Jan 01 2025 10:00am)
+3.[E][ ] book club (from: Jan 01 2025 10:00am to: Feb 01 2025 10:00am)
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
@@ -34,8 +34,8 @@ ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][X] read book
-2.[D][ ] return book (by: 31st August)
-3.[E][ ] book club (from: 1 Sept, 2pm to: 1 Sept, 4pm)
+2.[D][ ] return book (by: Jan 01 2025 10:00am)
+3.[E][ ] book club (from: Jan 01 2025 10:00am to: Feb 01 2025 10:00am)
 ____________________________________________________________
 ____________________________________________________________
 OK, I've marked this task as not done yet:
@@ -44,8 +44,8 @@ ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book
-2.[D][ ] return book (by: 31st August)
-3.[E][ ] book club (from: 1 Sept, 2pm to: 1 Sept, 4pm)
+2.[D][ ] return book (by: Jan 01 2025 10:00am)
+3.[E][ ] book club (from: Jan 01 2025 10:00am to: Feb 01 2025 10:00am)
 ____________________________________________________________
 ____________________________________________________________
 Oops! Your description can't be empty :(
