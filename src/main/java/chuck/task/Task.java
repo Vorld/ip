@@ -1,3 +1,5 @@
+package chuck.task;
+
 public abstract class Task {
     protected String description;
     protected boolean isDone;

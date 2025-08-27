@@ -1,3 +1,5 @@
+package chuck.task;
+
 public class Todo extends Task{
     public static final String SHORT_HAND = "T";
 

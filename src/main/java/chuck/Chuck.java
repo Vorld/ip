@@ -1,5 +1,16 @@
+package chuck;
+
+import chuck.command.Command;
+import chuck.command.Parser;
+import chuck.storage.Storage;
+import chuck.task.Deadline;
+import chuck.task.Event;
+import chuck.task.Task;
+import chuck.task.TaskList;
+import chuck.task.Todo;
+import chuck.ui.Ui;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Chuck {
 

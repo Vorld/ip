@@ -1,3 +1,6 @@
+package chuck.task;
+
+import chuck.command.Parser;
 import java.time.LocalDateTime;
 
 public class Deadline extends Task {

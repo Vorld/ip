@@ -1,3 +1,7 @@
+package chuck.task;
+
+import chuck.command.Parser;
+
 import java.time.LocalDateTime;
 
 public class Event extends Task{

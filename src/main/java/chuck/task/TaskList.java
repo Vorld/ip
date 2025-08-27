@@ -1,3 +1,5 @@
+package chuck.task;
+
 import java.util.ArrayList;
 
 public class TaskList {

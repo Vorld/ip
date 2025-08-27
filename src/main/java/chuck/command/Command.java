@@ -1,3 +1,5 @@
+package chuck.command;
+
 public enum Command {
     TODO("todo"),
     DEADLINE("deadline"),
