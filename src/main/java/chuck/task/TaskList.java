@@ -53,6 +53,18 @@ public class TaskList {
         return tasks.get(taskNumber - 1);
     }
 
+    public TaskList find(String searchString) {
+        TaskList matchingTasks = new TaskList();
+
+        for (Task t: tasks) {
+            if (t.toString().contains(searchString)) {
+                matchingTasks.add(t);
+            }
+        }
+
+        return matchingTasks;
+    }
+
     /**
      * Returns the number of tasks in the list.
      *
@@ -69,5 +81,17 @@ public class TaskList {
      */
     public ArrayList<Task> getTasks() {
         return tasks;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        int counter = 1;
+
+        for (Task t: tasks) {
+            s.append("\n" + counter + "." + t);
+        }
+
+        return s.toString();
     }
 }

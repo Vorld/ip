@@ -59,6 +59,24 @@ public class Chuck {
                     ui.showMessage(listMessage.toString().trim());
                     break;
                 }
+                case FIND: {
+                    String[] commandArgs = Parser.parseArguments(input, command);
+                    String searchString = commandArgs[0];
+
+                    if (searchString.isEmpty()) {
+                        throw new ChuckException("Oops! You can't search for nothing :(");
+                    }
+
+                    TaskList matchingTasks = tasks.find(searchString);
+
+                    if (matchingTasks.size() > 0) {
+                        ui.showMessage("Here are the matching tasks in your list:" + matchingTasks);
+                    } else {
+                        ui.showMessage("No matching tasks found :(");
+                    }
+
+                    break;
+                }
                 case DELETE: {
                     String[] commandArgs = Parser.parseArguments(input, command);
                     int taskNumber = Integer.parseInt(commandArgs[0]);

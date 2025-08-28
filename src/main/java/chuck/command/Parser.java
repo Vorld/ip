@@ -37,6 +37,8 @@ public class Parser {
         case MARK:
         case UNMARK:
             return new String[]{input.substring(command == Command.MARK ? 5 : 7).trim()};
+        case FIND:
+            return new String[]{input.substring(5).trim()};
         case DELETE:
             return new String[]{input.substring(7).trim()};
         case TODO:
