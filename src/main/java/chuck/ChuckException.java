@@ -1,6 +1,16 @@
 package chuck;
 
+/**
+ * Custom exception class for Chuck application errors.
+ * This exception is thrown when the application encounters specific errors
+ * such as invalid commands, empty descriptions, or file operations failures.
+ */
 public class ChuckException extends Exception {
+    /**
+     * Creates a new ChuckException with the specified error message.
+     *
+     * @param message detailed message explaining the error
+     */
     public ChuckException(String message) {
         super(message);
     }

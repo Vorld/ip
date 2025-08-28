@@ -12,8 +12,18 @@ import chuck.ui.Ui;
 
 import java.time.LocalDateTime;
 
+/**
+ * Main class for the Chuck assistant application.
+ * Chuck is a personal assistant that helps users organize their todos, deadlines, and events.
+ */
 public class Chuck {
 
+    /**
+     * Entry point of the Chuck application.
+     * Initializes the UI, storage, and task list, and then enters the main command loop.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         Ui ui = new Ui();
         ui.showWelcome();
