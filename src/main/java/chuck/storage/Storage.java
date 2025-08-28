@@ -17,10 +17,21 @@ import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving tasks to/from file storage in a text file format,
+ * with error handling for missing or corrupted files.
+ */
 public class Storage {
     private static final String FILE_PATH = "./data";
     private static final String FILE_NAME = "chuck.txt";
 
+    /**
+     * Loads tasks from file and returns TaskList.
+     * Handles missing files and corrupt data gracefully by continuing with empty list.
+     *
+     * @return TaskList containing all loaded tasks, or empty list if file not found
+     * @throws ChuckException if there are critical errors during loading
+     */
     public TaskList loadTasks() throws ChuckException {
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -71,6 +82,13 @@ public class Storage {
         return new TaskList(tasks);
     }
 
+    /**
+     * Saves all tasks from TaskList to file.
+     * Creates the data directory if it doesn't exist.
+     *
+     * @param tasks the TaskList containing all tasks to save
+     * @throws ChuckException if there are errors during the save operation
+     */
     public void saveTasks(TaskList tasks) throws ChuckException {
         try {
             File directory = new File(FILE_PATH);
@@ -80,6 +98,7 @@ public class Storage {
             
             PrintWriter out = new PrintWriter(FILE_PATH + "/" + FILE_NAME);
 
+            // TODO: Breaking abstraction here kinda.
             for (Task t: tasks.getTasks()) {
                 out.println(t.saveString());
             }

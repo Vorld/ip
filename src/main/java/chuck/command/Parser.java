@@ -5,14 +5,33 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Utility class for parsing user input and formatting date/time strings.
+ * Handles command parsing, argument extraction, and date/time conversions
+ * between different formats for display and storage.
+ */
 public class Parser {
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy h:mma");
 
+    /**
+     * Parses user input to identify the command type.
+     *
+     * @param input the user input string
+     * @return the Command enum corresponding to the input, or null if no match
+     */
     public static Command parseCommand(String input) {
         return Command.fromString(input);
     }
 
+    /**
+     * Extracts command arguments based on command type.
+     * Different commands have different argument patterns and parsing rules.
+     *
+     * @param input the full user input string
+     * @param command the command type to parse arguments for
+     * @return array of parsed arguments specific to the command type
+     */
     public static String[] parseArguments(String input, Command command) {
         switch (command) {
         case MARK:
@@ -38,6 +57,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Converts date/time string to LocalDateTime using input format.
+     *
+     * @param dateTimeString the date/time string in "yyyy-MM-dd HH:mm" format
+     * @return LocalDateTime object parsed from the input string
+     * @throws ChuckException if the date/time string format is invalid
+     */
     public static LocalDateTime parseDateTime(String dateTimeString) throws ChuckException {
         try {
             return LocalDateTime.parse(dateTimeString, INPUT_FORMATTER);
@@ -46,10 +72,22 @@ public class Parser {
         }
     }
 
+    /**
+     * Formats LocalDateTime for display to user.
+     *
+     * @param dateTime the LocalDateTime to format
+     * @return formatted string in "MMM dd yyyy h:mma" format for display
+     */
     public static String formatDateTime(LocalDateTime dateTime) {
         return dateTime.format(OUTPUT_FORMATTER);
     }
 
+    /**
+     * Formats LocalDateTime for saving to file.
+     *
+     * @param dateTime the LocalDateTime to format
+     * @return formatted string in "yyyy-MM-dd HH:mm" format for file storage
+     */
     public static String formatDateTimeForSave(LocalDateTime dateTime) {
         return dateTime.format(INPUT_FORMATTER);
     }
