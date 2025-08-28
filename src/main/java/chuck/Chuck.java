@@ -51,7 +51,7 @@ public class Chuck {
                     ui.showMessage("See you around!");
                     return;
                 }
-                case LIST:{
+                case LIST: {
                     StringBuilder listMessage = new StringBuilder("Here are the tasks in your list:\n");
                     for (int i = 1; i <= tasks.size(); i++) {
                         listMessage.append(i).append(".").append(tasks.get(i)).append("\n");
@@ -154,7 +154,8 @@ public class Chuck {
                     Task addedTask = tasks.get(tasks.size());
                     ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
                     break;
-                } case SAVE: {
+                }
+                case SAVE: {
                     storage.saveTasks(tasks);
                     ui.showMessage("Saved your tasks to hard disk!");
                 }
