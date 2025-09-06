@@ -9,7 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
+/**
+ * Graphical User Interface class using JavaFX
+ */
 public class Gui extends Application {
     private Chuck chuck = new Chuck();
 
@@ -21,7 +23,7 @@ public class Gui extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setChuck(chuck);  // inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setChuck(chuck); // inject the Duke instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
