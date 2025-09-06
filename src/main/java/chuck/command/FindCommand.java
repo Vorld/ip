@@ -3,7 +3,6 @@ package chuck.command;
 import chuck.ChuckException;
 import chuck.storage.Storage;
 import chuck.task.TaskList;
-import chuck.ui.Ui;
 
 /**
  * Command to find tasks containing a search string.
@@ -16,7 +15,7 @@ public class FindCommand extends Command {
     }
     
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ChuckException {
+    public String execute(TaskList tasks, Storage storage) throws ChuckException {
         if (searchString.isEmpty()) {
             throw new ChuckException("Oops! You can't search for nothing :(");
         }
@@ -24,9 +23,9 @@ public class FindCommand extends Command {
         TaskList matchingTasks = tasks.find(searchString);
 
         if (matchingTasks.size() > 0) {
-            ui.showMessage("Here are the matching tasks in your list:" + matchingTasks);
+            return "Here are the matching tasks in your list:" + matchingTasks;
         } else {
-            ui.showMessage("No matching tasks found :(");
+            return "No matching tasks found :(";
         }
     }
 }

@@ -29,6 +29,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        // TODO: Kind of breaking the abstraction here.
+        String welcomeMessage = "Hello! I'm Chuck\nWhat can I do for you?";
+        dialogContainer.getChildren().add(
+            DialogBox.getChuckDialog(welcomeMessage, chuckImage)
+        );
     }
 
     /** Injects the Duke instance */
@@ -46,7 +52,7 @@ public class MainWindow extends AnchorPane {
         String response = chuck.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, chuckImage)
+                DialogBox.getChuckDialog(response, chuckImage)
         );
         userInput.clear();
     }

@@ -8,7 +8,6 @@ import chuck.storage.Storage;
 import chuck.task.Event;
 import chuck.task.Task;
 import chuck.task.TaskList;
-import chuck.ui.Ui;
 
 /**
  * Command to create a new event task.
@@ -25,7 +24,7 @@ public class EventCommand extends Command {
     }
     
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ChuckException {
+    public String execute(TaskList tasks, Storage storage) throws ChuckException {
         if (description.isEmpty()) {
             throw new ChuckException("Oops! Your description can't be empty :(");
         }
@@ -41,7 +40,7 @@ public class EventCommand extends Command {
         LocalDateTime toDateTime = Parser.parseDateTime(to);
         tasks.add(new Event(description, fromDateTime, toDateTime));
         Task addedTask = tasks.get(tasks.size());
-        ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
-                + " tasks in the list.");
+        return "Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
+                + " tasks in the list.";
     }
 }
