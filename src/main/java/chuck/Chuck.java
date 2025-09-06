@@ -52,11 +52,10 @@ public class Chuck {
     }
 
     /**
-     * Entry point of the Chuck application.
-     *
-     * @param args command line arguments
+     * Generates a response for the user's chat message.
      */
-    public static void main(String[] args) {
-        new Chuck().run();
+    public String getResponse(String input) {
+        return "Duke heard: " + input;
     }
+
 }

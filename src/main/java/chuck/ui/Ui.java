@@ -16,7 +16,7 @@ public class Ui {
         this.scanner = new Scanner(System.in);
     }
 
-    /**
+    /**+
      * Reads and returns the next line of user input.
      *
      * @return the user input as a string
