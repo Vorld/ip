@@ -3,6 +3,7 @@ package chuck.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -40,7 +41,8 @@ public class Storage {
             Scanner in = new Scanner(saveFile);
 
             while (in.hasNextLine()) {
-                String[] lineData = in.nextLine().split("\\|");
+                String line = in.nextLine();
+                String[] lineData = line.split("\\|");
                 String type = lineData[0].trim();
 
                 switch (type) {
@@ -71,7 +73,8 @@ public class Storage {
                     break;
                 }
                 default: {
-                    throw new ChuckException("Event type in save file not recognised!");
+                    // TODO: Not sure if this is the right Exception to throw here
+                    System.out.println("Skipping incorrectly formatted line in save file: " + lineData + "...");
                 }
                 }
             }

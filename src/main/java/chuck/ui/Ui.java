@@ -31,18 +31,32 @@ public class Ui {
      * @param message the message to display
      */
     public void showMessage(String message) {
-        System.out.println("____________________________________________________________");
         System.out.println(message);
-        System.out.println("____________________________________________________________");
     }
 
     /**
      * Displays welcome message when application starts.
      */
     public void showWelcome() {
-        System.out.println("____________________________________________________________");
+        this.showLine();
         System.out.println("Hey! I'm Chuck, short for Charlie.\n");
         System.out.println("How can I help you?");
+        this.showLine();
+    }
+
+    /**
+     * Displays a divider line.
+     */
+    public void showLine() {
         System.out.println("____________________________________________________________");
+    }
+
+    /**
+     * Displays an error message to user.
+     *
+     * @param message the error message to display
+     */
+    public void showError(String message) {
+        System.out.println(message);
     }
 }

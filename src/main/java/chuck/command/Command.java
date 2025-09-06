@@ -1,47 +1,32 @@
 package chuck.command;
 
+import chuck.ChuckException;
+import chuck.storage.Storage;
+import chuck.task.TaskList;
+import chuck.ui.Ui;
+
 /**
- * Enum representing the available commands in the Chuck application.
+ * Abstract base class for all commands in the Chuck application.
  */
-public enum Command {
-    TODO("todo"),
-    DEADLINE("deadline"),
-    EVENT("event"),
-    LIST("list"),
-    FIND("find"),
-    MARK("mark"),
-    UNMARK("unmark"),
-    DELETE("delete"),
-    SAVE("save"),
-    BYE("bye");
-
-    private final String command;
-
+public abstract class Command {
+    
     /**
-     * Constructor for enum values with command string.
+     * Executes the command with the given context.
      *
-     * @param command the string representation of the command
+     * @param tasks the task list to operate on
+     * @param ui the user interface for input/output
+     * @param storage the storage system for persistence
+     * @throws ChuckException if there are errors during command execution
      */
-    Command(String command) {
-        this.command = command;
-    }
-
+    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws ChuckException;
+    
     /**
-     * Parses input string and returns corresponding Command enum.
-     * Extracts the first word from the input and matches it against available commands.
+     * Returns whether this command causes the application to exit.
+     * By default, commands do not cause exit.
      *
-     * @param input the string to parse
-     * @return the matching Command enum, or null if no match found
+     * @return true if this command should terminate the application, false otherwise
      */
-    public static Command fromString(String input) {
-        String command = input.split(" ")[0];
-        for (Command type : values()) {
-            if (type.command.equals(command)) {
-                return type;
-            }
-        }
-
-        // If the input matches none of the commands we return null
-        return null;
+    public boolean isExit() {
+        return false;
     }
 }

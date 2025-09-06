@@ -8,7 +8,7 @@ import chuck.ChuckException;
 
 /**
  * Utility class for parsing user input and formatting date/time strings.
- * Handles command parsing, argument extraction, and date/time conversions
+ * Handles command parsing, creates appropriate Command objects, and date/time conversions
  * between different formats for display and storage.
  */
 public class Parser {
@@ -16,48 +16,94 @@ public class Parser {
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy h:mma");
 
     /**
-     * Parses user input to identify the command type.
+     * Parses user input and returns the appropriate Command object.
      *
      * @param input the user input string
-     * @return the Command enum corresponding to the input, or null if no match
+     * @return the Command object corresponding to the input
+     * @throws ChuckException if the command is invalid or parsing fails
      */
-    public static Command parseCommand(String input) {
-        return Command.fromString(input);
+    public static Command parse(String input) throws ChuckException {
+        String[] inputParts = input.trim().split(" ", 2);
+        String commandWord = inputParts[0].toLowerCase();
+        String arguments = inputParts.length > 1 ? inputParts[1] : "";
+
+        switch (commandWord) {
+        case "bye":
+            return new ByeCommand();
+        case "list":
+            return new ListCommand();
+        case "find":
+            return new FindCommand(arguments);
+        case "delete":
+            try {
+                int taskNumber = Integer.parseInt(arguments.trim());
+                return new DeleteCommand(taskNumber);
+            } catch (NumberFormatException e) {
+                throw new ChuckException("Please provide a valid task number for delete!");
+            }
+        case "mark":
+            try {
+                int taskNumber = Integer.parseInt(arguments.trim());
+                return new MarkCommand(taskNumber);
+            } catch (NumberFormatException e) {
+                throw new ChuckException("Please provide a valid task number for mark!");
+            }
+        case "unmark":
+            try {
+                int taskNumber = Integer.parseInt(arguments.trim());
+                return new UnmarkCommand(taskNumber);
+            } catch (NumberFormatException e) {
+                throw new ChuckException("Please provide a valid task number for unmark!");
+            }
+        case "todo":
+            return new TodoCommand(arguments);
+        case "deadline":
+            return parseDeadlineCommand(arguments);
+        case "event":
+            return parseEventCommand(arguments);
+        case "save":
+            return new SaveCommand();
+        default:
+            throw new ChuckException("Oops! That's not a real Chuck command!");
+        }
     }
 
     /**
-     * Extracts command arguments based on command type.
-     * Different commands have different argument patterns and parsing rules.
+     * Parses deadline command arguments and creates a DeadlineCommand.
      *
-     * @param input the full user input string
-     * @param command the command type to parse arguments for
-     * @return array of parsed arguments specific to the command type
+     * @param arguments the arguments for the deadline command
+     * @return DeadlineCommand object
+     * @throws ChuckException if the format is invalid
      */
-    public static String[] parseArguments(String input, Command command) {
-        switch (command) {
-        case MARK:
-        case UNMARK:
-            return new String[]{input.substring(command == Command.MARK ? 5 : 7).trim()};
-        case FIND:
-            return new String[]{input.substring(5).trim()};
-        case DELETE:
-            return new String[]{input.substring(7).trim()};
-        case TODO:
-            return new String[]{input.substring(4).trim()};
-        case DEADLINE:
-            String deadlineRest = input.substring(8).trim();
-            String deadlineDescription = deadlineRest.substring(0, deadlineRest.indexOf("/by ")).trim();
-            String by = deadlineRest.substring(deadlineRest.indexOf("/by ") + 4).trim();
-            return new String[]{deadlineDescription, by};
-        case EVENT:
-            String eventRest = input.substring(5).trim();
-            String eventDescription = eventRest.substring(0, eventRest.indexOf("/from ")).trim();
-            String from = eventRest.substring(eventRest.indexOf("/from ") + 6, eventRest.indexOf("/to ")).trim();
-            String to = eventRest.substring(eventRest.indexOf("/to ") + 4).trim();
-            return new String[]{eventDescription, from, to};
-        default:
-            return new String[]{};
+    private static DeadlineCommand parseDeadlineCommand(String arguments) throws ChuckException {
+        if (!arguments.contains("/by ")) {
+            throw new ChuckException("Ensure you have a /by date for deadline tasks!");
         }
+
+        String description = arguments.substring(0, arguments.indexOf("/by ")).trim();
+        String by = arguments.substring(arguments.indexOf("/by ") + 4).trim();
+        return new DeadlineCommand(description, by);
+    }
+
+    /**
+     * Parses event command arguments and creates an EventCommand.
+     *
+     * @param arguments the arguments for the event command
+     * @return EventCommand object
+     * @throws ChuckException if the format is invalid
+     */
+    private static EventCommand parseEventCommand(String arguments) throws ChuckException {
+        if (!arguments.contains("/from ")) {
+            throw new ChuckException("Ensure you have a /from date for event tasks!");
+        }
+        if (!arguments.contains("/to ")) {
+            throw new ChuckException("Ensure you have a /to date for event tasks!");
+        }
+
+        String description = arguments.substring(0, arguments.indexOf("/from ")).trim();
+        String from = arguments.substring(arguments.indexOf("/from ") + 6, arguments.indexOf("/to ")).trim();
+        String to = arguments.substring(arguments.indexOf("/to ") + 4).trim();
+        return new EventCommand(description, from, to);
     }
 
     /**
