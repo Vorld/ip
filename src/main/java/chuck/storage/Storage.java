@@ -1,6 +1,14 @@
 
 package chuck.storage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import chuck.ChuckException;
 import chuck.command.Parser;
 import chuck.task.Deadline;
@@ -8,14 +16,6 @@ import chuck.task.Event;
 import chuck.task.Task;
 import chuck.task.TaskList;
 import chuck.task.Todo;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.io.PrintWriter;
-import java.util.Scanner;
 
 /**
  * Handles loading and saving tasks to/from file storage in a text file format,
@@ -70,6 +70,9 @@ public class Storage {
                     tasks.add(new Event(description, isDone, fromDateTime, toDateTime));
                     break;
                 }
+                default: {
+                    throw new ChuckException("Event type in save file not recognised!");
+                }
                 }
             }
 
@@ -95,9 +98,7 @@ public class Storage {
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-            
             PrintWriter out = new PrintWriter(FILE_PATH + "/" + FILE_NAME);
-
             // TODO: Breaking abstraction here kinda.
             for (Task t: tasks.getTasks()) {
                 out.println(t.saveString());

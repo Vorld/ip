@@ -1,5 +1,7 @@
 package chuck;
 
+import java.time.LocalDateTime;
+
 import chuck.command.Command;
 import chuck.command.Parser;
 import chuck.storage.Storage;
@@ -10,7 +12,6 @@ import chuck.task.TaskList;
 import chuck.task.Todo;
 import chuck.ui.Ui;
 
-import java.time.LocalDateTime;
 
 /**
  * Main class for the Chuck assistant application.
@@ -30,7 +31,6 @@ public class Chuck {
 
         Storage storage = new Storage();
         TaskList tasks = new TaskList();
-        
         try {
             tasks = storage.loadTasks();
         } catch (ChuckException ce) {
@@ -41,10 +41,6 @@ public class Chuck {
             try {
                 String input = ui.readCommand();
                 Command command = Parser.parseCommand(input);
-
-                if (command == null) {
-                    throw new ChuckException("Oops! That's not a real Chuck command!");
-                }
 
                 switch (command) {
                 case BYE: {
@@ -112,7 +108,8 @@ public class Chuck {
 
                     tasks.add(new Todo(description));
                     Task addedTask = tasks.get(tasks.size());
-                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
+                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
+                            + " tasks in the list.");
                     break;
                 }
                 case DEADLINE: {
@@ -137,7 +134,8 @@ public class Chuck {
                     LocalDateTime byDateTime = Parser.parseDateTime(by);
                     tasks.add(new Deadline(description, byDateTime));
                     Task addedTask = tasks.get(tasks.size());
-                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
+                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
+                            + " tasks in the list.");
                     break;
                 }
                 case EVENT: {
@@ -170,12 +168,17 @@ public class Chuck {
                     LocalDateTime toDateTime = Parser.parseDateTime(to);
                     tasks.add(new Event(description, fromDateTime, toDateTime));
                     Task addedTask = tasks.get(tasks.size());
-                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
+                    ui.showMessage("Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
+                            + " tasks in the list.");
                     break;
                 }
                 case SAVE: {
                     storage.saveTasks(tasks);
                     ui.showMessage("Saved your tasks to hard disk!");
+                    break;
+                }
+                default: {
+                    throw new ChuckException("Oops! That's not a real Chuck command!");
                 }
                 }
 
