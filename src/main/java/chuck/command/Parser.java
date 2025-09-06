@@ -1,9 +1,10 @@
 package chuck.command;
 
-import chuck.ChuckException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import chuck.ChuckException;
 
 /**
  * Utility class for parsing user input and formatting date/time strings.

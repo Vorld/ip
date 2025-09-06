@@ -1,14 +1,15 @@
 package chuck.task;
 
+import java.time.LocalDateTime;
+
 import chuck.command.Parser;
 
-import java.time.LocalDateTime;
 
 /**
  * Represents an event task with start and end times.
  * Extends the basic Task functionality with from and to date/time fields.
  */
-public class Event extends Task{
+public class Event extends Task {
     public static final String SHORT_HAND = "E";
     protected LocalDateTime from;
     protected LocalDateTime to;
@@ -48,7 +49,8 @@ public class Event extends Task{
      */
     @Override
     public String toString() {
-        return String.format("[%s]%s (from: %s to: %s)", SHORT_HAND, super.toString(), Parser.formatDateTime(this.from), Parser.formatDateTime(this.to));
+        return String.format("[%s]%s (from: %s to: %s)", SHORT_HAND, super.toString(), Parser.formatDateTime(this.from),
+                Parser.formatDateTime(this.to));
     }
 
     /**
@@ -58,6 +60,7 @@ public class Event extends Task{
      */
     @Override
     public String saveString() {
-        return String.format("%s | %s | %s | %s", "E", super.saveString(), Parser.formatDateTimeForSave(this.from), Parser.formatDateTimeForSave(this.to));
+        return String.format("%s | %s | %s | %s", "E", super.saveString(), Parser.formatDateTimeForSave(this.from),
+                Parser.formatDateTimeForSave(this.to));
     }
 }

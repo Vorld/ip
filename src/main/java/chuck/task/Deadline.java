@@ -1,7 +1,8 @@
 package chuck.task;
 
-import chuck.command.Parser;
 import java.time.LocalDateTime;
+
+import chuck.command.Parser;
 
 /**
  * Represents a task with a deadline (due by specific date/time).

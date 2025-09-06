@@ -53,6 +53,12 @@ public class TaskList {
         return tasks.get(taskNumber - 1);
     }
 
+    /**
+     * Finds tasks that contain the search string anywhere in its string representation.
+     *
+     * @param searchString the string to search
+     * @return a TaskList of tasks that match the string
+     */
     public TaskList find(String searchString) {
         TaskList matchingTasks = new TaskList();
 

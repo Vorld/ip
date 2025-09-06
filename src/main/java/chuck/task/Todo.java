@@ -4,7 +4,7 @@ package chuck.task;
  * Represents a simple todo task.
  * A todo task only has a description and completion status.
  */
-public class Todo extends Task{
+public class Todo extends Task {
     public static final String SHORT_HAND = "T";
 
     /**
