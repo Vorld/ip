@@ -3,7 +3,6 @@ package chuck.command;
 import chuck.ChuckException;
 import chuck.storage.Storage;
 import chuck.task.TaskList;
-import chuck.ui.Ui;
 
 /**
  * Command to exit the application.
@@ -11,8 +10,8 @@ import chuck.ui.Ui;
 public class ByeCommand extends Command {
     
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ChuckException {
-        ui.showMessage("See you around!");
+    public String execute(TaskList tasks, Storage storage) throws ChuckException {
+        return "See you around!";
     }
     
     @Override
