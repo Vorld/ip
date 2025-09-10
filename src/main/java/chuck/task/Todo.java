@@ -5,7 +5,7 @@ package chuck.task;
  * A todo task only has a description and completion status.
  */
 public class Todo extends Task {
-    public static final String SHORT_HAND = "T";
+    public static final String TYPE_SYMBOL = "T";
 
     /**
      * Creates a new todo with the given description.
@@ -33,7 +33,7 @@ public class Todo extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s]%s", SHORT_HAND, super.toString());
+        return String.format("[%s]%s", TYPE_SYMBOL, super.toString());
     }
 
     /**

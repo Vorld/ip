@@ -13,11 +13,11 @@ import chuck.task.TaskList;
  */
 public class DeadlineCommand extends Command {
     private String description;
-    private String by;
+    private String dueDate;
     
-    public DeadlineCommand(String description, String by) {
+    public DeadlineCommand(String description, String dueDate) {
         this.description = description;
-        this.by = by;
+        this.dueDate = dueDate;
     }
     
     @Override
@@ -26,11 +26,11 @@ public class DeadlineCommand extends Command {
             throw new ChuckException("Oops! Your description can't be empty :(");
         }
 
-        if (by.isEmpty()) {
+        if (dueDate.isEmpty()) {
             throw new ChuckException("Oops! Your by date can't be empty :(");
         }
 
-        LocalDateTime byDateTime = Parser.parseDateTime(by);
+        LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
         tasks.add(new Deadline(description, byDateTime));
         Task addedTask = tasks.get(tasks.size());
         return "Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()

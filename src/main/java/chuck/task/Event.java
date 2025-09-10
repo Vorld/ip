@@ -10,7 +10,7 @@ import chuck.command.Parser;
  * Extends the basic Task functionality with from and to date/time fields.
  */
 public class Event extends Task {
-    public static final String SHORT_HAND = "E";
+    public static final String TYPE_SYMBOL = "E";
     protected LocalDateTime from;
     protected LocalDateTime to;
 
@@ -49,7 +49,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s]%s (from: %s to: %s)", SHORT_HAND, super.toString(), Parser.formatDateTime(this.from),
+        return String.format("[%s]%s (from: %s to: %s)", TYPE_SYMBOL, super.toString(), Parser.formatDateTime(this.from),
                 Parser.formatDateTime(this.to));
     }
 

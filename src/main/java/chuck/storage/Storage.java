@@ -45,29 +45,29 @@ public class Storage {
                 String type = lineData[0].trim();
 
                 switch (type) {
-                case Todo.SHORT_HAND: {
+                case Todo.TYPE_SYMBOL: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
                     tasks.add(new Todo(description, isDone));
                     break;
                 }
-                case Deadline.SHORT_HAND: {
+                case Deadline.TYPE_SYMBOL: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
-                    String by = lineData[3].trim();
+                    String dueDate = lineData[3].trim();
 
-                    LocalDateTime byDateTime = Parser.parseDateTime(by);
+                    LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
                     tasks.add(new Deadline(description, isDone, byDateTime));
                     break;
                 }
-                case Event.SHORT_HAND: {
+                case Event.TYPE_SYMBOL: {
                     String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
-                    String from = lineData[3].trim();
-                    String to = lineData[4].trim();
+                    String startDate = lineData[3].trim();
+                    String endDate = lineData[4].trim();
 
-                    LocalDateTime fromDateTime = Parser.parseDateTime(from);
-                    LocalDateTime toDateTime = Parser.parseDateTime(to);
+                    LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
+                    LocalDateTime toDateTime = Parser.parseDateTime(endDate);
                     tasks.add(new Event(description, isDone, fromDateTime, toDateTime));
                     break;
                 }
