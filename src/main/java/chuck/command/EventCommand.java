@@ -13,13 +13,13 @@ import chuck.task.TaskList;
  */
 public class EventCommand extends Command {
     private String description;
-    private String from;
-    private String to;
+    private String startDate;
+    private String endDate;
     
-    public EventCommand(String description, String from, String to) {
+    public EventCommand(String description, String startDate, String endDate) {
         this.description = description;
-        this.from = from;
-        this.to = to;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
     
     @Override
@@ -28,15 +28,15 @@ public class EventCommand extends Command {
             throw new ChuckException("Oops! Your description can't be empty :(");
         }
 
-        if (from.isEmpty()) {
+        if (startDate.isEmpty()) {
             throw new ChuckException("Oops! Your from date can't be empty :(");
         }
-        if (to.isEmpty()) {
+        if (endDate.isEmpty()) {
             throw new ChuckException("Oops! Your to date can't be empty :(");
         }
 
-        LocalDateTime fromDateTime = Parser.parseDateTime(from);
-        LocalDateTime toDateTime = Parser.parseDateTime(to);
+        LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
+        LocalDateTime toDateTime = Parser.parseDateTime(endDate);
         tasks.add(new Event(description, fromDateTime, toDateTime));
         Task addedTask = tasks.get(tasks.size());
         return "Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
