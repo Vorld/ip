@@ -23,49 +23,65 @@ public class Parser {
      * @throws ChuckException if the command is invalid or parsing fails
      */
     public static Command parse(String input) throws ChuckException {
+        assert input != null && !input.trim().isEmpty() : "Input cannot be null or empty";
+        
         String[] inputParts = input.trim().split(" ", 2);
         String commandWord = inputParts[0].toLowerCase();
         String arguments = inputParts.length > 1 ? inputParts[1] : "";
 
+        Command result;
         switch (commandWord) {
         case "bye":
-            return new ByeCommand();
+            result = new ByeCommand();
+            break;
         case "list":
-            return new ListCommand();
+            result = new ListCommand();
+            break;
         case "find":
-            return new FindCommand(arguments);
+            result = new FindCommand(arguments);
+            break;
         case "delete":
             try {
                 int taskNumber = Integer.parseInt(arguments.trim());
-                return new DeleteCommand(taskNumber);
+                result = new DeleteCommand(taskNumber);
             } catch (NumberFormatException e) {
                 throw new ChuckException("Please provide a valid task number for delete!");
             }
+            break;
         case "mark":
             try {
                 int taskNumber = Integer.parseInt(arguments.trim());
-                return new MarkCommand(taskNumber);
+                result = new MarkCommand(taskNumber);
             } catch (NumberFormatException e) {
                 throw new ChuckException("Please provide a valid task number for mark!");
             }
+            break;
         case "unmark":
             try {
                 int taskNumber = Integer.parseInt(arguments.trim());
-                return new UnmarkCommand(taskNumber);
+                result = new UnmarkCommand(taskNumber);
             } catch (NumberFormatException e) {
                 throw new ChuckException("Please provide a valid task number for unmark!");
             }
+            break;
         case "todo":
-            return new TodoCommand(arguments);
+            result = new TodoCommand(arguments);
+            break;
         case "deadline":
-            return parseDeadlineCommand(arguments);
+            result = parseDeadlineCommand(arguments);
+            break;
         case "event":
-            return parseEventCommand(arguments);
+            result = parseEventCommand(arguments);
+            break;
         case "save":
-            return new SaveCommand();
+            result = new SaveCommand();
+            break;
         default:
             throw new ChuckException("Oops! That's not a real Chuck command!");
         }
+        
+        assert result != null : "Parser must return a valid Command object";
+        return result;
     }
 
     /**
