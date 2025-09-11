@@ -23,6 +23,10 @@ public class Event extends Task {
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
+
+        assert from != null && to != null : "Event start and end times cannot be null";
+        assert !from.isAfter(to) : "Event start time cannot be after end time: " + from + " > " + to;
+
         this.from = from;
         this.to = to;
     }
@@ -37,6 +41,10 @@ public class Event extends Task {
      */
     public Event(String description, boolean isDone, LocalDateTime from, LocalDateTime to) {
         super(description, isDone);
+
+        assert from != null && to != null : "Event start and end times cannot be null";
+        assert !from.isAfter(to) : "Event start time cannot be after end time: " + from + " > " + to;
+
         this.from = from;
         this.to = to;
     }
