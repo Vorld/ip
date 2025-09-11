@@ -107,6 +107,36 @@ public class ParserTest {
     }
 
     @Test
+    public void testParse_TagCommand() throws ChuckException {
+        Command result = Parser.parse("tag 1 work,urgent");
+        assertTrue(result instanceof TagCommand);
+    }
+
+    @Test
+    public void testParse_TagCommandWithExtraSpaces() throws ChuckException {
+        Command result = Parser.parse("tag   2   personal,home   ");
+        assertTrue(result instanceof TagCommand);
+    }
+
+    @Test
+    public void testParse_TagCommandRemove() throws ChuckException {
+        Command result = Parser.parse("tag 3 -work");
+        assertTrue(result instanceof TagCommand);
+    }
+
+    @Test
+    public void testParse_FilterCommand() throws ChuckException {
+        Command result = Parser.parse("filter work");
+        assertTrue(result instanceof FilterCommand);
+    }
+
+    @Test
+    public void testParse_FilterCommandWithExtraSpaces() throws ChuckException {
+        Command result = Parser.parse("filter   urgent   ");
+        assertTrue(result instanceof FilterCommand);
+    }
+
+    @Test
     public void testParse_ByeCommand() throws ChuckException {
         Command result = Parser.parse("bye");
         assertTrue(result instanceof ByeCommand);
@@ -159,6 +189,34 @@ public class ParserTest {
     public void testParse_EventCommandMissingTo() {
         assertThrows(ChuckException.class, () -> {
             Parser.parse("event meeting /from 2025-12-01 14:00");
+        });
+    }
+
+    @Test
+    public void testParse_TagCommandEmpty() {
+        assertThrows(ChuckException.class, () -> {
+            Parser.parse("tag");
+        });
+    }
+
+    @Test
+    public void testParse_TagCommandMissingTags() {
+        assertThrows(ChuckException.class, () -> {
+            Parser.parse("tag 1");
+        });
+    }
+
+    @Test
+    public void testParse_TagCommandInvalidTaskNumber() {
+        assertThrows(ChuckException.class, () -> {
+            Parser.parse("tag abc work");
+        });
+    }
+
+    @Test
+    public void testParse_FilterCommandEmpty() {
+        assertThrows(ChuckException.class, () -> {
+            Parser.parse("filter");
         });
     }
 

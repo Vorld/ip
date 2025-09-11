@@ -1,5 +1,7 @@
 package chuck.task;
 
+import java.util.Set;
+
 /**
  * Represents a simple todo task.
  * A todo task only has a description and completion status.
@@ -24,6 +26,17 @@ public class Todo extends Task {
      */
     public Todo(String description, boolean isDone) {
         super(description, isDone);
+    }
+
+    /**
+     * Creates a new todo with description, completion status, and tags.
+     *
+     * @param description the description of the todo task
+     * @param isDone whether the todo is completed
+     * @param tags the set of tags for this todo
+     */
+    public Todo(String description, boolean isDone, Set<String> tags) {
+        super(description, isDone, tags);
     }
 
     /**

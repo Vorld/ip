@@ -1,3 +1,3 @@
-T | false | valid task
-malformed line without pipes
-D | true | another valid task | 2023-12-01 23:59
+T | false | read book | personal
+D | true | submit report | work,urgent | 2023-12-01 23:59
+E | false | team meeting | work | 2023-12-01 14:00 | 2023-12-01 16:00

@@ -38,6 +38,7 @@ public class Parser {
             result = new ListCommand();
             break;
         case "find":
+            // TODO: create a parseFindCommand to better handle input
             result = new FindCommand(arguments);
             break;
         case "delete":
@@ -75,6 +76,12 @@ public class Parser {
             break;
         case "save":
             result = new SaveCommand();
+            break;
+        case "tag":
+            result = parseTagCommand(arguments);
+            break;
+        case "filter":
+            result = parseFilterCommand(arguments);
             break;
         default:
             throw new ChuckException("Oops! That's not a real Chuck command!");
@@ -155,5 +162,46 @@ public class Parser {
      */
     public static String formatDateTimeForSave(LocalDateTime dateTime) {
         return dateTime.format(INPUT_FORMATTER);
+    }
+
+    /**
+     * Parses tag command arguments and creates a TagCommand.
+     *
+     * @param arguments the arguments for the tag command
+     * @return TagCommand object
+     * @throws ChuckException if the format is invalid
+     */
+    private static TagCommand parseTagCommand(String arguments) throws ChuckException {
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("Tag command requires a task number and tags! Usage: tag <task_number> <tags>");
+        }
+
+        String[] parts = arguments.trim().split(" ", 2);
+        if (parts.length < 2) {
+            throw new ChuckException("Tag command requires a task number and tags! Usage: tag <task_number> <tags>");
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(parts[0].trim());
+            String tagString = parts[1].trim();
+            return new TagCommand(taskNumber, tagString);
+        } catch (NumberFormatException e) {
+            throw new ChuckException("Please provide a valid task number for tag command!");
+        }
+    }
+
+    /**
+     * Parses filter command arguments and creates a FilterCommand.
+     *
+     * @param arguments the arguments for the filter command
+     * @return FilterCommand object
+     * @throws ChuckException if the format is invalid
+     */
+    private static FilterCommand parseFilterCommand(String arguments) throws ChuckException {
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("Filter command requires a tag! Usage: filter <tag>");
+        }
+
+        return new FilterCommand(arguments.trim());
     }
 }

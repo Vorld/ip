@@ -59,7 +59,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_SingleTodoTask() throws ChuckException, IOException {
-        writeToFile("T | false | read book");
+        writeToFile("T | false | read book | ");
         
         TaskList result = storage.loadTasks();
         
@@ -72,7 +72,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_SingleTodoTaskDone() throws ChuckException, IOException {
-        writeToFile("T | true | complete assignment");
+        writeToFile("T | true | complete assignment | ");
         
         TaskList result = storage.loadTasks();
         
@@ -85,7 +85,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_SingleDeadlineTask() throws ChuckException, IOException {
-        writeToFile("D | false | submit report | 2023-12-01 23:59");
+        writeToFile("D | false | submit report | | 2023-12-01 23:59");
         
         TaskList result = storage.loadTasks();
         
@@ -99,7 +99,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_SingleDeadlineTaskDone() throws ChuckException, IOException {
-        writeToFile("D | true | finish homework | 2023-12-15 10:00");
+        writeToFile("D | true | finish homework | | 2023-12-15 10:00");
         
         TaskList result = storage.loadTasks();
         
@@ -112,7 +112,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_SingleEventTask() throws ChuckException, IOException {
-        writeToFile("E | false | team meeting | 2023-12-01 14:00 | 2023-12-01 16:00");
+        writeToFile("E | false | team meeting | | 2023-12-01 14:00 | 2023-12-01 16:00");
         
         TaskList result = storage.loadTasks();
         
@@ -127,7 +127,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_SingleEventTaskDone() throws ChuckException, IOException {
-        writeToFile("E | true | project presentation | 2023-12-10 09:00 | 2023-12-10 11:00");
+        writeToFile("E | true | project presentation | | 2023-12-10 09:00 | 2023-12-10 11:00");
         
         TaskList result = storage.loadTasks();
         
@@ -140,9 +140,9 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_MultipleMixedTasks() throws ChuckException, IOException {
-        String content = "T | false | read book\n"
-                + "D | true | submit report | 2023-12-01 23:59\n"
-                + "E | false | team meeting | 2023-12-01 14:00 | 2023-12-01 16:00";
+        String content = "T | false | read book | \n"
+                + "D | true | submit report | | 2023-12-01 23:59\n"
+                + "E | false | team meeting | | 2023-12-01 14:00 | 2023-12-01 16:00";
         writeToFile(content);
         
         TaskList result = storage.loadTasks();
@@ -165,9 +165,9 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_TasksWithExtraWhitespace() throws ChuckException, IOException {
-        String content = "T |  false  |  read book with spaces  \n"
-                + "D | true   |   submit report   | 2023-12-01 23:59 \n"
-                + "E |false|meeting| 2023-12-01 14:00| 2023-12-01 16:00";
+        String content = "T |  false  |  read book with spaces |  \n"
+                + "D | true   |   submit report   | |  2023-12-01 23:59 \n"
+                + "E |false|meeting| |  2023-12-01 14:00| 2023-12-01 16:00";
         writeToFile(content);
         
         TaskList result = storage.loadTasks();
@@ -180,14 +180,14 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_CorruptedDateFormat() throws IOException {
-        writeToFile("D | false | submit report | invalid-date-format");
+        writeToFile("D | false | submit report | | invalid-date-format");
 
         assertThrows(ChuckException.class, () -> storage.loadTasks());
     }
 
     @Test
     public void testLoadTasks_CorruptedBooleanFormat() throws ChuckException, IOException {
-        writeToFile("T | maybe | read book");
+        writeToFile("T | maybe | read book| ");
         
         TaskList result = storage.loadTasks();
         
@@ -197,7 +197,7 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_UnknownTaskType() throws ChuckException, IOException {
-        writeToFile("X | false | unknown task type");
+        writeToFile("X | false | unknown task type | ");
         
         TaskList result = storage.loadTasks();
 
@@ -206,9 +206,9 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_MalformedLine() throws ChuckException, IOException {
-        String content = "T | false | valid task\n"
-                + "malformed line without pipes\n"
-                + "D | true | another valid task | 2023-12-01 23:59";
+        String content = "T | false | valid task | \n"
+                + "malformed line without pipes | \n"
+                + "D | true | another valid task | | 2023-12-01 23:59";
         writeToFile(content);
 
 
@@ -217,5 +217,67 @@ public class StorageTest {
         assertEquals(2, result.size());
         assertTrue(result.get(1) instanceof Todo);
         assertTrue(result.get(2) instanceof Deadline);
+    }
+
+    @Test
+    public void testLoadTasks_TodoWithTags() throws ChuckException, IOException {
+        writeToFile("T | false | read book | work,personal");
+        
+        TaskList result = storage.loadTasks();
+        
+        assertEquals(1, result.size());
+        Task task = result.get(1);
+        assertTrue(task instanceof Todo);
+        assertTrue(task.hasTag("work"));
+        assertTrue(task.hasTag("personal"));
+    }
+
+    @Test
+    public void testLoadTasks_DeadlineWithTags() throws ChuckException, IOException {
+        writeToFile("D | true | submit report | urgent,work | 2023-12-01 23:59");
+        
+        TaskList result = storage.loadTasks();
+        
+        assertEquals(1, result.size());
+        Task task = result.get(1);
+        assertTrue(task instanceof Deadline);
+        assertTrue(task.hasTag("urgent"));
+        assertTrue(task.hasTag("work"));
+        assertEquals("X", task.getStatusIcon());
+    }
+
+    @Test
+    public void testLoadTasks_EventWithTags() throws ChuckException, IOException {
+        writeToFile("E | false | team meeting | work,meeting | 2023-12-01 14:00 | 2023-12-01 16:00");
+        
+        TaskList result = storage.loadTasks();
+        
+        assertEquals(1, result.size());
+        Task task = result.get(1);
+        assertTrue(task instanceof Event);
+        assertTrue(task.hasTag("work"));
+        assertTrue(task.hasTag("meeting"));
+    }
+
+    @Test
+    public void testLoadTasks_MixedTasksWithTags() throws ChuckException, IOException {
+        String content = "T | false | read book | personal\n"
+                + "D | true | submit report | work,urgent | 2023-12-01 23:59\n"
+                + "E | false | team meeting | work | 2023-12-01 14:00 | 2023-12-01 16:00";
+        writeToFile(content);
+        
+        TaskList result = storage.loadTasks();
+        
+        assertEquals(3, result.size());
+
+        Task todoTask = result.get(1);
+        assertTrue(todoTask.hasTag("personal"));
+        
+        Task deadlineTask = result.get(2);
+        assertTrue(deadlineTask.hasTag("work"));
+        assertTrue(deadlineTask.hasTag("urgent"));
+
+        Task eventTask = result.get(3);
+        assertTrue(eventTask.hasTag("work"));
     }
 }

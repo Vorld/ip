@@ -1,5 +1,8 @@
 package chuck.task;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Abstract base class representing a task with description and completion status (isDone).
  * This class provides common functionality for all task types including
@@ -8,6 +11,7 @@ package chuck.task;
 public abstract class Task {
     protected String description;
     protected boolean isDone;
+    protected Set<String> tags;
 
     /**
      * Creates a new task with the given description, initially not done.
@@ -19,6 +23,7 @@ public abstract class Task {
 
         this.description = description;
         this.isDone = false;
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -33,6 +38,24 @@ public abstract class Task {
 
         this.description = description;
         this.isDone = isDone;
+        this.tags = new HashSet<>();
+    }
+
+    /**
+     * Creates a new task with description, completion status, and tags.
+     *
+     * @param description the description of the task
+     * @param isDone whether the task is completed
+     * @param tags the set of tags for this task
+     */
+    public Task(String description, boolean isDone, Set<String> tags) {
+        assert description != null && !description.trim().isEmpty()
+                : "Task description cannot be null or empty";
+        assert tags != null : "Tags set cannot be null";
+
+        this.description = description;
+        this.isDone = isDone;
+        this.tags = new HashSet<>(tags);
     }
 
     /**
@@ -58,6 +81,22 @@ public abstract class Task {
         this.isDone = false;
     }
 
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        this.tags.remove(tag);
+    }
+
+    public Set<String> getTags() {
+        return this.tags;
+    }
+
+    public boolean hasTag(String tag) {
+        return this.tags.contains(tag);
+    }
+
     /**
      * Returns string representation showing status and description.
      *
@@ -65,7 +104,12 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.getStatusIcon(), this.description);
+        String tagString = tags.isEmpty() ? "" : 
+            "#" + String.join(" #", tags);
+        return String.format("[%s] %s %s",
+                this.getStatusIcon(), 
+                this.description, 
+                tagString);
     }
 
     /**
@@ -74,6 +118,10 @@ public abstract class Task {
      * @return string representation suitable for file storage
      */
     public String saveString() {
-        return String.format("%s | %s", this.isDone, this.description);
+        String tagString = tags.isEmpty() ? "" : String.join(",", tags);
+        return String.format("%s | %s | %s", 
+                this.isDone, 
+                this.description, 
+                tagString);
     };
 }
