@@ -280,5 +280,4 @@ public class StorageTest {
         Task eventTask = result.get(3);
         assertTrue(eventTask.hasTag("work"));
     }
-
 }

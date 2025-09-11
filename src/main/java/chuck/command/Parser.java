@@ -38,6 +38,7 @@ public class Parser {
             result = new ListCommand();
             break;
         case "find":
+            // TODO: create a parseFindCommand to better handle input
             result = new FindCommand(arguments);
             break;
         case "delete":
@@ -78,6 +79,9 @@ public class Parser {
             break;
         case "tag":
             result = parseTagCommand(arguments);
+            break;
+        case "filter":
+            result = parseFilterCommand(arguments);
             break;
         default:
             throw new ChuckException("Oops! That's not a real Chuck command!");
@@ -184,5 +188,20 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new ChuckException("Please provide a valid task number for tag command!");
         }
+    }
+
+    /**
+     * Parses filter command arguments and creates a FilterCommand.
+     *
+     * @param arguments the arguments for the filter command
+     * @return FilterCommand object
+     * @throws ChuckException if the format is invalid
+     */
+    private static FilterCommand parseFilterCommand(String arguments) throws ChuckException {
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("Filter command requires a tag! Usage: filter <tag>");
+        }
+
+        return new FilterCommand(arguments.trim());
     }
 }

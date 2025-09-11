@@ -125,6 +125,18 @@ public class ParserTest {
     }
 
     @Test
+    public void testParse_FilterCommand() throws ChuckException {
+        Command result = Parser.parse("filter work");
+        assertTrue(result instanceof FilterCommand);
+    }
+
+    @Test
+    public void testParse_FilterCommandWithExtraSpaces() throws ChuckException {
+        Command result = Parser.parse("filter   urgent   ");
+        assertTrue(result instanceof FilterCommand);
+    }
+
+    @Test
     public void testParse_ByeCommand() throws ChuckException {
         Command result = Parser.parse("bye");
         assertTrue(result instanceof ByeCommand);
@@ -198,6 +210,13 @@ public class ParserTest {
     public void testParse_TagCommandInvalidTaskNumber() {
         assertThrows(ChuckException.class, () -> {
             Parser.parse("tag abc work");
+        });
+    }
+
+    @Test
+    public void testParse_FilterCommandEmpty() {
+        assertThrows(ChuckException.class, () -> {
+            Parser.parse("filter");
         });
     }
 
