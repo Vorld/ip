@@ -25,6 +25,8 @@ public class Storage {
     private static final String FILE_PATH = "./data";
     private static final String FILE_NAME = "chuck.txt";
 
+    // TODO: set file_path and file_name in a constructor
+
     /**
      * Loads tasks from file and returns TaskList.
      * Handles missing files and corrupt data gracefully by continuing with empty list.
