@@ -1,22 +1,23 @@
 package chuck.storage;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import chuck.ChuckException;
 import chuck.task.Deadline;
 import chuck.task.Event;
 import chuck.task.Task;
 import chuck.task.TaskList;
 import chuck.task.Todo;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class StorageTest {
     
@@ -139,9 +140,9 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_MultipleMixedTasks() throws ChuckException, IOException {
-        String content = "T | false | read book\n" +
-                "D | true | submit report | 2023-12-01 23:59\n" +
-                "E | false | team meeting | 2023-12-01 14:00 | 2023-12-01 16:00";
+        String content = "T | false | read book\n"
+                + "D | true | submit report | 2023-12-01 23:59\n"
+                + "E | false | team meeting | 2023-12-01 14:00 | 2023-12-01 16:00";
         writeToFile(content);
         
         TaskList result = storage.loadTasks();
@@ -164,9 +165,9 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_TasksWithExtraWhitespace() throws ChuckException, IOException {
-        String content = "T |  false  |  read book with spaces  \n" +
-                        "D | true   |   submit report   | 2023-12-01 23:59 \n" +
-                        "E |false|meeting| 2023-12-01 14:00| 2023-12-01 16:00";
+        String content = "T |  false  |  read book with spaces  \n"
+                + "D | true   |   submit report   | 2023-12-01 23:59 \n"
+                + "E |false|meeting| 2023-12-01 14:00| 2023-12-01 16:00";
         writeToFile(content);
         
         TaskList result = storage.loadTasks();
@@ -205,9 +206,9 @@ public class StorageTest {
 
     @Test
     public void testLoadTasks_MalformedLine() throws ChuckException, IOException {
-        String content = "T | false | valid task\n" +
-                        "malformed line without pipes\n" +
-                        "D | true | another valid task | 2023-12-01 23:59";
+        String content = "T | false | valid task\n"
+                + "malformed line without pipes\n"
+                + "D | true | another valid task | 2023-12-01 23:59";
         writeToFile(content);
 
 
@@ -217,6 +218,4 @@ public class StorageTest {
         assertTrue(result.get(1) instanceof Todo);
         assertTrue(result.get(2) instanceof Deadline);
     }
-
-
 }
