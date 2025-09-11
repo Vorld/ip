@@ -9,7 +9,7 @@ import chuck.command.Parser;
  * Extends the basic Task functionality with a deadline date and time.
  */
 public class Deadline extends Task {
-    public static final String SHORT_HAND = "D";
+    public static final String TYPE_SYMBOL = "D";
     protected LocalDateTime by;
 
     /**
@@ -43,7 +43,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s]%s (by: %s)", SHORT_HAND, super.toString(), Parser.formatDateTime(this.by));
+        return String.format("[%s]%s (by: %s)", TYPE_SYMBOL, super.toString(), Parser.formatDateTime(this.by));
     }
 
     /**
@@ -53,6 +53,6 @@ public class Deadline extends Task {
      */
     @Override
     public String saveString() {
-        return String.format("%s | %s | %s", SHORT_HAND, super.saveString(), Parser.formatDateTimeForSave(this.by));
+        return String.format("%s | %s | %s", TYPE_SYMBOL, super.saveString(), Parser.formatDateTimeForSave(this.by));
     }
 }

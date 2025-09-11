@@ -24,10 +24,10 @@ public class Parser {
      */
     public static Command parse(String input) throws ChuckException {
         assert input != null && !input.trim().isEmpty() : "Input cannot be null or empty";
-        
-        String[] inputParts = input.trim().split(" ", 2);
-        String commandWord = inputParts[0].toLowerCase();
-        String arguments = inputParts.length > 1 ? inputParts[1] : "";
+
+        String[] commandTokens = input.trim().split(" ", 2);
+        String commandWord = commandTokens[0].toLowerCase();
+        String arguments = commandTokens.length > 1 ? commandTokens[1] : "";
 
         Command result;
         switch (commandWord) {
@@ -79,7 +79,7 @@ public class Parser {
         default:
             throw new ChuckException("Oops! That's not a real Chuck command!");
         }
-        
+
         assert result != null : "Parser must return a valid Command object";
         return result;
     }
@@ -97,8 +97,8 @@ public class Parser {
         }
 
         String description = arguments.substring(0, arguments.indexOf("/by ")).trim();
-        String by = arguments.substring(arguments.indexOf("/by ") + 4).trim();
-        return new DeadlineCommand(description, by);
+        String dueDate = arguments.substring(arguments.indexOf("/by ") + 4).trim();
+        return new DeadlineCommand(description, dueDate);
     }
 
     /**
@@ -117,9 +117,9 @@ public class Parser {
         }
 
         String description = arguments.substring(0, arguments.indexOf("/from ")).trim();
-        String from = arguments.substring(arguments.indexOf("/from ") + 6, arguments.indexOf("/to ")).trim();
-        String to = arguments.substring(arguments.indexOf("/to ") + 4).trim();
-        return new EventCommand(description, from, to);
+        String startDate = arguments.substring(arguments.indexOf("/from ") + 6, arguments.indexOf("/to ")).trim();
+        String endDate = arguments.substring(arguments.indexOf("/to ") + 4).trim();
+        return new EventCommand(description, startDate, endDate);
     }
 
     /**

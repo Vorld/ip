@@ -33,8 +33,8 @@ public class Chuck {
      */
     public String getResponse(String input) {
         try {
-            Command c = Parser.parse(input);
-            return c.execute(tasks, storage);
+            Command parsedCommand = Parser.parse(input);
+            return parsedCommand.execute(tasks, storage);
         } catch (ChuckException e) {
             return "Error: " + e.getMessage();
         }
