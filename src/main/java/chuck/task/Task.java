@@ -42,6 +42,23 @@ public abstract class Task {
     }
 
     /**
+     * Creates a new task with description, completion status, and tags.
+     *
+     * @param description the description of the task
+     * @param isDone whether the task is completed
+     * @param tags the set of tags for this task
+     */
+    public Task(String description, boolean isDone, Set<String> tags) {
+        assert description != null && !description.trim().isEmpty()
+                : "Task description cannot be null or empty";
+        assert tags != null : "Tags set cannot be null";
+
+        this.description = description;
+        this.isDone = isDone;
+        this.tags = new HashSet<>(tags);
+    }
+
+    /**
      * Returns the status icon for this task.
      *
      * @return "X" if task is done, " " (space) if not done

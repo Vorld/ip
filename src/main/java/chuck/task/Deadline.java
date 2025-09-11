@@ -1,6 +1,7 @@
 package chuck.task;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import chuck.command.Parser;
 
@@ -32,6 +33,19 @@ public class Deadline extends Task {
      */
     public Deadline(String description, boolean isDone, LocalDateTime by) {
         super(description, isDone);
+        this.by = by;
+    }
+
+    /**
+     * Creates a new deadline task with description, completion status, due date, and tags.
+     *
+     * @param description the description of the deadline task
+     * @param isDone whether the deadline task is completed
+     * @param by the date and time when the task is due
+     * @param tags the set of tags for this deadline
+     */
+    public Deadline(String description, boolean isDone, LocalDateTime by, Set<String> tags) {
+        super(description, isDone, tags);
         this.by = by;
     }
 

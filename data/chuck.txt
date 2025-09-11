@@ -1,3 +1,2 @@
-T | false | valid task
-malformed line without pipes
-D | true | another valid task | 2023-12-01 23:59
+T | false | hi | hi
+T | true | DESCRIPTION | 

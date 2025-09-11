@@ -7,7 +7,10 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import chuck.ChuckException;
 import chuck.command.Parser;
@@ -48,29 +51,39 @@ public class Storage {
 
                 switch (type) {
                 case Todo.TYPE_SYMBOL: {
-                    String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
-                    tasks.add(new Todo(description, isDone));
+                    String description = lineData[2].trim();
+                    String tagString = lineData[3].trim();
+                    Set<String> tags = tagString.isEmpty() ? new HashSet<>() : 
+                        new HashSet<>(Arrays.asList(tagString.split(",")));
+                    
+                    tasks.add(new Todo(description, isDone, tags));
                     break;
                 }
                 case Deadline.TYPE_SYMBOL: {
-                    String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
-                    String dueDate = lineData[3].trim();
+                    String description = lineData[2].trim();
+                    String tagString = lineData[3].trim();
+                    String dueDate = lineData[4].trim();
+                    Set<String> tags = tagString.isEmpty() ? new HashSet<>() : 
+                        new HashSet<>(Arrays.asList(tagString.split(",")));
 
                     LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
-                    tasks.add(new Deadline(description, isDone, byDateTime));
+                    tasks.add(new Deadline(description, isDone, byDateTime, tags));
                     break;
                 }
                 case Event.TYPE_SYMBOL: {
-                    String description = lineData[2].trim();
                     boolean isDone = Boolean.parseBoolean(lineData[1].trim());
-                    String startDate = lineData[3].trim();
-                    String endDate = lineData[4].trim();
+                    String description = lineData[2].trim();
+                    String tagString = lineData[3].trim();
+                    String startDate = lineData[4].trim();
+                    String endDate = lineData[5].trim();
+                    Set<String> tags = tagString.isEmpty() ? new HashSet<>() : 
+                        new HashSet<>(Arrays.asList(tagString.split(",")));
 
                     LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
                     LocalDateTime toDateTime = Parser.parseDateTime(endDate);
-                    tasks.add(new Event(description, isDone, fromDateTime, toDateTime));
+                    tasks.add(new Event(description, isDone, fromDateTime, toDateTime, tags));
                     break;
                 }
                 default: {

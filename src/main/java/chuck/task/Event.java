@@ -1,6 +1,7 @@
 package chuck.task;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import chuck.command.Parser;
 
@@ -41,6 +42,25 @@ public class Event extends Task {
      */
     public Event(String description, boolean isDone, LocalDateTime from, LocalDateTime to) {
         super(description, isDone);
+
+        assert from != null && to != null : "Event start and end times cannot be null";
+        assert !from.isAfter(to) : "Event start time cannot be after end time: " + from + " > " + to;
+
+        this.from = from;
+        this.to = to;
+    }
+
+    /**
+     * Creates a new event with description, completion status, times, and tags.
+     *
+     * @param description the description of the event
+     * @param isDone whether the event is completed
+     * @param from the start date and time of the event
+     * @param to the end date and time of the event
+     * @param tags the set of tags for this event
+     */
+    public Event(String description, boolean isDone, LocalDateTime from, LocalDateTime to, Set<String> tags) {
+        super(description, isDone, tags);
 
         assert from != null && to != null : "Event start and end times cannot be null";
         assert !from.isAfter(to) : "Event start time cannot be after end time: " + from + " > " + to;
