@@ -3,6 +3,9 @@ package chuck;
 import chuck.ui.Gui;
 import javafx.application.Application;
 
+/**
+ * Launch the JavaFX GUI
+ */
 public class Launcher {
     /**
      * Entry point of the Chuck application.

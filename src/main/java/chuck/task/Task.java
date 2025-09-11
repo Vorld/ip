@@ -15,7 +15,7 @@ public abstract class Task {
      * @param description the description of the task
      */
     public Task(String description) {
-        assert description != null && !description.trim().isEmpty() :"Task description cannot be null or empty";
+        assert description != null && !description.trim().isEmpty() : "Task description cannot be null or empty";
 
         this.description = description;
         this.isDone = false;
@@ -28,8 +28,8 @@ public abstract class Task {
      * @param isDone whether the task is completed
      */
     public Task(String description, boolean isDone) {
-        assert description != null && !description.trim().isEmpty() : 
-            "Task description cannot be null or empty";
+        assert description != null && !description.trim().isEmpty()
+                : "Task description cannot be null or empty";
 
         this.description = description;
         this.isDone = isDone;
