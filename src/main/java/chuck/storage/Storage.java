@@ -102,9 +102,9 @@ public class Storage {
             }
             PrintWriter out = new PrintWriter(FILE_PATH + "/" + FILE_NAME);
             // TODO: Breaking abstraction here kinda.
-            for (Task t: tasks.getTasks()) {
-                out.println(t.saveString());
-            }
+            tasks.getTasks().stream()
+                    .map(Task::saveString)
+                    .forEach(out::println);
 
             out.close();
         } catch (FileNotFoundException fileNotFoundException) {
