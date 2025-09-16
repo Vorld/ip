@@ -21,10 +21,9 @@ public class ListCommand extends Command {
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
-        StringBuilder listMessage = new StringBuilder("Here are the tasks in your list:\n");
-        for (int i = 1; i <= tasks.size(); i++) {
-            listMessage.append(i).append(".").append(tasks.get(i)).append("\n");
+        if (tasks.isEmpty()) {
+            return tasks.toDisplayString();
         }
-        return listMessage.toString().trim();
+        return "Here are your tasks:\n\n" + tasks.toDisplayString();
     }
 }

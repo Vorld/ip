@@ -24,6 +24,9 @@ public class Gui extends Application {
             Scene scene = new Scene(ap);
             stage.setTitle("Chuck!");
             stage.setScene(scene);
+            stage.setMinWidth(450);
+            stage.setMinHeight(400);
+            stage.setResizable(true);
             fxmlLoader.<MainWindow>getController().setChuck(chuck); // inject the Chuck instance
             stage.show();
         } catch (IOException e) {

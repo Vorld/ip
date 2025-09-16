@@ -108,12 +108,34 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        String tagString = tags.isEmpty() ? "" : 
+        String tagString = tags.isEmpty() ? "" :
             "#" + String.join(" #", tags);
         return String.format("[%s] %s %s",
-                this.getStatusIcon(), 
-                this.description, 
+                this.getStatusIcon(),
+                this.description,
                 tagString);
+    }
+
+    /**
+     * Returns a formatted display string for GUI presentation.
+     *
+     * @return nicely formatted task string for display
+     */
+    public String toDisplayString() {
+        StringBuilder display = new StringBuilder();
+
+        // Status with simple symbols
+        display.append(isDone ? "[✓] " : "[ ] ");
+
+        // Task description
+        display.append(description);
+
+        // Tags with nice formatting
+        if (!tags.isEmpty()) {
+            display.append("\n   Tags: ").append(String.join(", ", tags));
+        }
+
+        return display.toString();
     }
 
     /**

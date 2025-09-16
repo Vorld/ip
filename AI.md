@@ -10,4 +10,5 @@ In particular, I used Claude Code to
 
 * generate JUnit Tests and Test Stubs.
 * refactor the Parse and Storage classes
+* Improve the GUI (branch-A-BetterGui)
 

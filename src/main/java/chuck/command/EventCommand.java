@@ -67,7 +67,7 @@ public class EventCommand extends Command {
         LocalDateTime toDateTime = Parser.parseDateTime(endDate);
         tasks.add(new Event(description, fromDateTime, toDateTime));
         Task addedTask = tasks.get(tasks.size());
-        return "Got it. I've added this task:\n" + addedTask + "\nNow you have " + tasks.size()
-                + " tasks in the list.";
+        return "Got it. I've added this task:\n\n" + addedTask.toDisplayString() +
+                "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

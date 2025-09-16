@@ -33,6 +33,6 @@ public class MarkCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         tasks.get(taskNumber).markDone();
-        return "Nice! I've marked this task as done:\n" + tasks.get(taskNumber);
+        return "Nice! I've marked this task as done:\n\n" + tasks.get(taskNumber).toDisplayString();
     }
 }

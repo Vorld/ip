@@ -64,6 +64,32 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns formatted display string with Deadline icon and due date.
+     *
+     * @return nicely formatted deadline string for GUI display
+     */
+    @Override
+    public String toDisplayString() {
+        StringBuilder display = new StringBuilder();
+
+        // Status with simple symbols
+        display.append(isDone ? "[✓] " : "[ ] ");
+
+        // Deadline icon and description
+        display.append("DEADLINE: ").append(description);
+
+        // Due date
+        display.append("\n   Due: ").append(Parser.formatDateTime(this.by));
+
+        // Tags with nice formatting
+        if (!tags.isEmpty()) {
+            display.append("\n   Tags: ").append(String.join(", ", tags));
+        }
+
+        return display.toString();
+    }
+
+    /**
      * Returns formatted string for file storage with deadline data.
      *
      * @return string representation suitable for saving to file with due date
