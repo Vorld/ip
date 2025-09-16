@@ -1,6 +1,8 @@
 package chuck.task;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import chuck.command.Parser;
@@ -68,5 +70,24 @@ public class Deadline extends Task {
     @Override
     public String toSaveString() {
         return String.format("%s | %s | %s", TYPE_SYMBOL, super.toSaveString(), Parser.formatDateTimeForSave(this.by));
+    }
+
+    /**
+     * Creates a Deadline from a saved string line.
+     *
+     * @param line the saved string line in format "D | isDone | description | tags | dueDate"
+     * @return Deadline instance parsed from the save string
+     */
+    public static Deadline fromSaveString(String line) {
+        String[] data = line.split("\\|");
+        boolean isDone = Boolean.parseBoolean(data[1].trim());
+        String description = data[2].trim();
+        String tagString = data[3].trim();
+        String dueDate = data[4].trim();
+        Set<String> tags = tagString.isEmpty() ? new HashSet<>() :
+            new HashSet<>(Arrays.asList(tagString.split(",")));
+
+        LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
+        return new Deadline(description, isDone, byDateTime, tags);
     }
 }

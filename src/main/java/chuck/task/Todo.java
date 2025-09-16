@@ -1,5 +1,7 @@
 package chuck.task;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -57,5 +59,22 @@ public class Todo extends Task {
     @Override
     public String toSaveString() {
         return String.format("%s | %s", "T", super.toSaveString());
+    }
+
+    /**
+     * Creates a Todo from a saved string line.
+     *
+     * @param line the saved string line in format "T | isDone | description | tags"
+     * @return Todo instance parsed from the save string
+     */
+    public static Todo fromSaveString(String line) {
+        String[] data = line.split("\\|");
+        boolean isDone = Boolean.parseBoolean(data[1].trim());
+        String description = data[2].trim();
+        String tagString = data[3].trim();
+        Set<String> tags = tagString.isEmpty() ? new HashSet<>() :
+            new HashSet<>(Arrays.asList(tagString.split(",")));
+
+        return new Todo(description, isDone, tags);
     }
 }

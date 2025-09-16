@@ -7,6 +7,10 @@ import java.util.Set;
  * Abstract base class representing a task with description and completion status (isDone).
  * This class provides common functionality for all task types including
  * marking as done/undone and a basic string representation.
+ *
+ * Subclasses should implement a static fromSaveString(String line) method that parses
+ * a saved task string and returns an instance of the specific task type. This method
+ * should handle the parsing of the line format produced by toSaveString().
  */
 public abstract class Task {
     protected String description;

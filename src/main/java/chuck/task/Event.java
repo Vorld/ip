@@ -1,6 +1,8 @@
 package chuck.task;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import chuck.command.Parser;
@@ -91,5 +93,26 @@ public class Event extends Task {
     public String toSaveString() {
         return String.format("%s | %s | %s | %s", "E", super.toSaveString(), Parser.formatDateTimeForSave(this.from),
                 Parser.formatDateTimeForSave(this.to));
+    }
+
+    /**
+     * Creates an Event from a saved string line.
+     *
+     * @param line the saved string line in format "E | isDone | description | tags | startDate | endDate"
+     * @return Event instance parsed from the save string
+     */
+    public static Event fromSaveString(String line) {
+        String[] data = line.split("\\|");
+        boolean isDone = Boolean.parseBoolean(data[1].trim());
+        String description = data[2].trim();
+        String tagString = data[3].trim();
+        String startDate = data[4].trim();
+        String endDate = data[5].trim();
+        Set<String> tags = tagString.isEmpty() ? new HashSet<>() :
+            new HashSet<>(Arrays.asList(tagString.split(",")));
+
+        LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
+        LocalDateTime toDateTime = Parser.parseDateTime(endDate);
+        return new Event(description, isDone, fromDateTime, toDateTime, tags);
     }
 }
