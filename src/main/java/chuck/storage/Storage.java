@@ -36,12 +36,8 @@ public class Storage {
             String content = readFileContent();
             return Parser.parseTasksFromFileContent(content);
         } catch (FileNotFoundException fileNotFoundException) {
-            // TODO: Handle in GUI
-            System.out.println("Couldn't find a save file! Continuing anyways...");
             return new TaskList(new ArrayList<>());
         } catch (DateTimeParseException dateTimeParseException) {
-            // TODO: Handle in GUI
-            System.out.println("Dates are formatted wrongly in the save file! Continuing anyways...");
             return new TaskList(new ArrayList<>());
         }
     }

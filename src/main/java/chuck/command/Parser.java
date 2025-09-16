@@ -122,16 +122,8 @@ public class Parser {
                 continue;
             }
 
-            try {
-                Task task = parseTaskFromLine(line);
-                if (task != null) {
-                    tasks.add(task);
-                }
-                // TODO: Fix pokemon exception handling
-            } catch (Exception e) {
-                // TODO: Handle in GUI
-                System.out.println("Skipping corrupted task: " + line);
-            }
+            Task task = parseTaskFromLine(line);
+            tasks.add(task);
         }
 
         return new TaskList(tasks);
@@ -156,6 +148,7 @@ public class Parser {
             case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
             case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
             default -> {
+                // TODO: show the error on GUI?
                 System.out.println("Skipping incorrectly formatted line in save file: " + line);
                 yield null;
             }
