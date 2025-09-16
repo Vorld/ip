@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import chuck.ChuckException;
 import chuck.command.Parser;
 
 
@@ -101,7 +102,7 @@ public class Event extends Task {
      * @param line the saved string line in format "E | isDone | description | tags | startDate | endDate"
      * @return Event instance parsed from the save string
      */
-    public static Event fromSaveString(String line) {
+    public static Event fromSaveString(String line) throws ChuckException {
         String[] data = line.split("\\|");
         boolean isDone = Boolean.parseBoolean(data[1].trim());
         String description = data[2].trim();

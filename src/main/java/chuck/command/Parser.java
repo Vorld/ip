@@ -3,13 +3,23 @@ package chuck.command;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import chuck.ChuckException;
+import chuck.task.Deadline;
+import chuck.task.Event;
+import chuck.task.Task;
+import chuck.task.TaskList;
+import chuck.task.Todo;
 
 /**
  * Utility class for parsing user input and formatting date/time strings.
  * Handles command parsing, creates appropriate Command objects, and date/time conversions
  * between different formats for display and storage.
+ * Also handles parsing tasks from file content for Storage operations.
  */
 public class Parser {
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -83,6 +93,73 @@ public class Parser {
      */
     public static String formatDateTimeForSave(LocalDateTime dateTime) {
         return dateTime.format(INPUT_FORMATTER);
+    }
+
+    /**
+     * Parses tag string into a Set of tags.
+     *
+     * @param tagString comma-separated tag string
+     * @return Set of individual tags, empty set if tagString is empty
+     */
+    public static Set<String> parseTags(String tagString) {
+        return tagString.isEmpty() ? new HashSet<>() :
+            new HashSet<>(Arrays.asList(tagString.split(",")));
+    }
+
+    /**
+     * Parses file content and returns TaskList containing all tasks.
+     *
+     * @param content the file content as a single string
+     * @return TaskList containing all parsed tasks
+     * @throws ChuckException if there are critical parsing errors
+     */
+    public static TaskList parseTasksFromFileContent(String content) throws ChuckException {
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            try {
+                Task task = parseTaskFromLine(line);
+                if (task != null) {
+                    tasks.add(task);
+                }
+                // TODO: Fix pokemon exception handling
+            } catch (Exception e) {
+                // TODO: Handle in GUI
+                System.out.println("Skipping corrupted task: " + line);
+            }
+        }
+
+        return new TaskList(tasks);
+    }
+
+    /**
+     * Parses a single line from save file into a Task.
+     *
+     * @param line the save file line
+     * @return Task instance or null if invalid format
+     * @throws ChuckException if parsing fails
+     */
+    private static Task parseTaskFromLine(String line) throws ChuckException {
+        String[] data = line.split("\\|");
+        if (data.length == 0) {
+            return null;
+        }
+
+        String type = data[0].trim();
+        return switch (type) {
+            case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
+            case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
+            case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
+            default -> {
+                System.out.println("Skipping incorrectly formatted line in save file: " + line);
+                yield null;
+            }
+        };
     }
 
 }

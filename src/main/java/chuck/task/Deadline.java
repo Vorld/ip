@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import chuck.ChuckException;
 import chuck.command.Parser;
 
 /**
@@ -78,7 +79,7 @@ public class Deadline extends Task {
      * @param line the saved string line in format "D | isDone | description | tags | dueDate"
      * @return Deadline instance parsed from the save string
      */
-    public static Deadline fromSaveString(String line) {
+    public static Deadline fromSaveString(String line) throws ChuckException {
         String[] data = line.split("\\|");
         boolean isDone = Boolean.parseBoolean(data[1].trim());
         String description = data[2].trim();
