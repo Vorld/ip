@@ -55,7 +55,7 @@ public class Todo extends Task {
      * @return string representation suitable for saving to file
      */
     @Override
-    public String saveString() {
-        return String.format("%s | %s", "T", super.saveString());
+    public String toSaveString() {
+        return String.format("%s | %s", "T", super.toSaveString());
     }
 }

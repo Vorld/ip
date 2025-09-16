@@ -117,7 +117,7 @@ public abstract class Task {
      *
      * @return string representation suitable for file storage
      */
-    public String saveString() {
+    public String toSaveString() {
         String tagString = tags.isEmpty() ? "" : String.join(",", tags);
         return String.format("%s | %s | %s", 
                 this.isDone, 

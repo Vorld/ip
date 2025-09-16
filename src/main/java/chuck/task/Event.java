@@ -88,8 +88,8 @@ public class Event extends Task {
      * @return string representation suitable for saving to file with time range
      */
     @Override
-    public String saveString() {
-        return String.format("%s | %s | %s | %s", "E", super.saveString(), Parser.formatDateTimeForSave(this.from),
+    public String toSaveString() {
+        return String.format("%s | %s | %s | %s", "E", super.toSaveString(), Parser.formatDateTimeForSave(this.from),
                 Parser.formatDateTimeForSave(this.to));
     }
 }

@@ -66,7 +66,7 @@ public class Deadline extends Task {
      * @return string representation suitable for saving to file with due date
      */
     @Override
-    public String saveString() {
-        return String.format("%s | %s | %s", TYPE_SYMBOL, super.saveString(), Parser.formatDateTimeForSave(this.by));
+    public String toSaveString() {
+        return String.format("%s | %s | %s", TYPE_SYMBOL, super.toSaveString(), Parser.formatDateTimeForSave(this.by));
     }
 }

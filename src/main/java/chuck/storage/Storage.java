@@ -88,7 +88,7 @@ public class Storage {
                     break;
                 }
                 default: {
-                    // TODO: Not sure if this is the right Exception to throw here
+                    // TODO: Handle in GUI
                     System.out.println("Skipping incorrectly formatted line in save file: " + lineData + "...");
                 }
                 }
@@ -120,7 +120,7 @@ public class Storage {
             PrintWriter out = new PrintWriter(filePath);
             // TODO: Breaking abstraction here kinda.
             tasks.getTasks().stream()
-                    .map(Task::saveString)
+                    .map(Task::toSaveString)
                     .forEach(out::println);
 
             out.close();
