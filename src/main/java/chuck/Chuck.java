@@ -4,6 +4,8 @@ import chuck.command.Command;
 import chuck.command.Parser;
 import chuck.storage.Storage;
 import chuck.task.TaskList;
+import chuck.ui.Gui;
+import javafx.application.Application;
 
 /**
  * Main class for the Chuck assistant application.
@@ -40,6 +42,15 @@ public class Chuck {
         } catch (ChuckException e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    /**
+     * Entry point of the Chuck application.
+     *
+     * @param args command line arguments
+     */
+    public static void main(String[] args) {
+        Application.launch(Gui.class, args);
     }
 
 }

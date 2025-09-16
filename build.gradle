@@ -44,7 +44,7 @@ test {
 }
 
 application {
-    mainClass.set("chuck.Launcher")
+    mainClass.set("chuck.Chuck")
 }
 
 shadowJar {
