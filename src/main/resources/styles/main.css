@@ -1,0 +1,115 @@
+/* Cutesy Charlie Brown & Peppermint Patty Theme */
+
+/* Root styles - warm, friendly colors */
+.root {
+    -fx-background-color: #fef7e0; /* Warm cream background like comic paper */
+    -fx-font-family: "Comic Sans MS", "Chalkboard", "Bradley Hand", cursive;
+    -fx-font-size: 13px;
+}
+
+/* Main window - simple paper-like background */
+#mainWindow {
+    -fx-background-color: #fef7e0;
+}
+
+/* Chat area - clean and simple */
+#scrollPane {
+    -fx-background-color: #fef7e0;
+    -fx-border-color: #8B4513;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+#scrollPane .viewport {
+    -fx-background-color: #fef7e0;
+}
+
+/* Simple scroll bar */
+#scrollPane .scroll-bar:vertical .track {
+    -fx-background-color: #f4e4bc;
+}
+
+#scrollPane .scroll-bar:vertical .thumb {
+    -fx-background-color: #d2b48c;
+    -fx-background-radius: 3;
+}
+
+/* Dialog container */
+#dialogContainer {
+    -fx-background-color: #fef7e0;
+    -fx-padding: 8;
+    -fx-spacing: 10;
+}
+
+/* Input field - simple and cute */
+#userInput {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #deb887;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-font-size: 13px;
+    -fx-padding: 8;
+    -fx-prompt-text-fill: #8B7355;
+}
+
+#userInput:focused {
+    -fx-border-color: #8B4513;
+}
+
+/* Send button - warm and friendly */
+#sendButton {
+    -fx-background-color: #f4a460;
+    -fx-text-fill: #654321;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+#sendButton:hover {
+    -fx-background-color: #daa520;
+}
+
+/* Dialog boxes - speech bubble style */
+.dialog-box {
+    -fx-background-radius: 15;
+    -fx-padding: 8;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(gaussian, rgba(139, 69, 19, 0.3), 3, 0.5, 2, 2);
+}
+
+/* Peppermint Patty (user) - pink/red theme */
+.dialog-box.user {
+    -fx-background-color: #ffb6c1;
+    -fx-border-color: #ff69b4;
+    -fx-border-width: 2;
+}
+
+.dialog-box.user .label {
+    -fx-text-fill: #8b0000;
+    -fx-font-weight: bold;
+}
+
+/* Charlie Brown (chuck) - yellow theme */
+.dialog-box.chuck {
+    -fx-background-color: #fff8dc;
+    -fx-border-color: #daa520;
+    -fx-border-width: 2;
+}
+
+.dialog-box.chuck .label {
+    -fx-text-fill: #8B4513;
+}
+
+/* Avatars - round and cute */
+.dialog-box .image-view {
+    -fx-effect: dropshadow(gaussian, rgba(139, 69, 19, 0.4), 2, 0.3, 1, 1);
+}
+
+/* Make sure text is visible and readable */
+.label {
+    -fx-font-family: "Comic Sans MS", "Chalkboard", cursive;
+    -fx-font-size: 13px;
+    -fx-text-fill: inherit;
+    -fx-background-color: transparent;
+}
