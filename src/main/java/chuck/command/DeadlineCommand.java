@@ -25,6 +25,23 @@ public class DeadlineCommand extends Command {
         this.description = description;
         this.dueDate = dueDate;
     }
+
+    /**
+     * Parses arguments for the deadline command.
+     *
+     * @param arguments the arguments containing description /by dueDate
+     * @return a new DeadlineCommand instance
+     * @throws ChuckException if the format is invalid
+     */
+    public static DeadlineCommand parse(String arguments) throws ChuckException {
+        if (!arguments.contains("/by ")) {
+            throw new ChuckException("Ensure you have a /by date for deadline tasks!");
+        }
+
+        String description = arguments.substring(0, arguments.indexOf("/by ")).trim();
+        String dueDate = arguments.substring(arguments.indexOf("/by ") + 4).trim();
+        return new DeadlineCommand(description, dueDate);
+    }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {

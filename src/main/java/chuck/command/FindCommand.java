@@ -13,6 +13,17 @@ public class FindCommand extends Command {
     public FindCommand(String searchString) {
         this.searchString = searchString;
     }
+
+    /**
+     * Parses arguments for the find command.
+     *
+     * @param arguments the search string to find in tasks
+     * @return a new FindCommand instance
+     * @throws ChuckException if the search string is empty
+     */
+    public static FindCommand parse(String arguments) throws ChuckException {
+        return new FindCommand(arguments);
+    }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {

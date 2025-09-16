@@ -6,6 +6,8 @@ import chuck.task.TaskList;
 
 /**
  * Abstract base class for all commands in the Chuck application.
+ * Each concrete command class should implement a static parse(String arguments) method
+ * that returns an instance of the command parsed from the given arguments.
  */
 public abstract class Command {
     

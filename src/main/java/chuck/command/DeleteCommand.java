@@ -14,6 +14,22 @@ public class DeleteCommand extends Command {
     public DeleteCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
+
+    /**
+     * Parses arguments for the delete command.
+     *
+     * @param arguments the task number to delete
+     * @return a new DeleteCommand instance
+     * @throws ChuckException if the task number is invalid
+     */
+    public static DeleteCommand parse(String arguments) throws ChuckException {
+        try {
+            int taskNumber = Integer.parseInt(arguments.trim());
+            return new DeleteCommand(taskNumber);
+        } catch (NumberFormatException e) {
+            throw new ChuckException("Please provide a valid task number for delete!");
+        }
+    }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {

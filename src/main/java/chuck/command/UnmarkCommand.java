@@ -13,6 +13,22 @@ public class UnmarkCommand extends Command {
     public UnmarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
+
+    /**
+     * Parses arguments for the unmark command.
+     *
+     * @param arguments the task number to mark as not done
+     * @return a new UnmarkCommand instance
+     * @throws ChuckException if the task number is invalid
+     */
+    public static UnmarkCommand parse(String arguments) throws ChuckException {
+        try {
+            int taskNumber = Integer.parseInt(arguments.trim());
+            return new UnmarkCommand(taskNumber);
+        } catch (NumberFormatException e) {
+            throw new ChuckException("Please provide a valid task number for unmark!");
+        }
+    }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {

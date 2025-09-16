@@ -14,6 +14,17 @@ public class TodoCommand extends Command {
     public TodoCommand(String description) {
         this.description = description;
     }
+
+    /**
+     * Parses arguments for the todo command.
+     *
+     * @param arguments the description of the todo task
+     * @return a new TodoCommand instance
+     * @throws ChuckException if the description is empty
+     */
+    public static TodoCommand parse(String arguments) throws ChuckException {
+        return new TodoCommand(arguments);
+    }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
