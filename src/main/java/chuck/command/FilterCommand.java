@@ -27,6 +27,21 @@ public class FilterCommand extends Command {
     }
 
     /**
+     * Parses arguments for the filter command.
+     *
+     * @param arguments the tag to filter by
+     * @return a new FilterCommand instance
+     * @throws ChuckException if the format is invalid
+     */
+    public static FilterCommand parse(String arguments) throws ChuckException {
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("Filter command requires a tag! Usage: filter <tag>");
+        }
+
+        return new FilterCommand(arguments.trim());
+    }
+
+    /**
      * Executes the filter command by showing tasks that have the specified tag.
      *
      * @param tasks the task list to filter

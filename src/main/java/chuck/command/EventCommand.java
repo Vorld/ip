@@ -28,6 +28,27 @@ public class EventCommand extends Command {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    /**
+     * Parses arguments for the event command.
+     *
+     * @param arguments the arguments containing description /from startDate /to endDate
+     * @return a new EventCommand instance
+     * @throws ChuckException if the format is invalid
+     */
+    public static EventCommand parse(String arguments) throws ChuckException {
+        if (!arguments.contains("/from ")) {
+            throw new ChuckException("Ensure you have a /from date for event tasks!");
+        }
+        if (!arguments.contains("/to ")) {
+            throw new ChuckException("Ensure you have a /to date for event tasks!");
+        }
+
+        String description = arguments.substring(0, arguments.indexOf("/from ")).trim();
+        String startDate = arguments.substring(arguments.indexOf("/from ") + 6, arguments.indexOf("/to ")).trim();
+        String endDate = arguments.substring(arguments.indexOf("/to ") + 4).trim();
+        return new EventCommand(description, startDate, endDate);
+    }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {

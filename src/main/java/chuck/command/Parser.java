@@ -29,105 +29,26 @@ public class Parser {
         String commandWord = commandTokens[0].toLowerCase();
         String arguments = commandTokens.length > 1 ? commandTokens[1] : "";
 
-        Command result;
-        switch (commandWord) {
-        case "bye":
-            result = new ByeCommand();
-            break;
-        case "list":
-            result = new ListCommand();
-            break;
-        case "find":
-            // TODO: create a parseFindCommand to better handle input
-            result = new FindCommand(arguments);
-            break;
-        case "delete":
-            try {
-                int taskNumber = Integer.parseInt(arguments.trim());
-                result = new DeleteCommand(taskNumber);
-            } catch (NumberFormatException e) {
-                throw new ChuckException("Please provide a valid task number for delete!");
-            }
-            break;
-        case "mark":
-            try {
-                int taskNumber = Integer.parseInt(arguments.trim());
-                result = new MarkCommand(taskNumber);
-            } catch (NumberFormatException e) {
-                throw new ChuckException("Please provide a valid task number for mark!");
-            }
-            break;
-        case "unmark":
-            try {
-                int taskNumber = Integer.parseInt(arguments.trim());
-                result = new UnmarkCommand(taskNumber);
-            } catch (NumberFormatException e) {
-                throw new ChuckException("Please provide a valid task number for unmark!");
-            }
-            break;
-        case "todo":
-            result = new TodoCommand(arguments);
-            break;
-        case "deadline":
-            result = parseDeadlineCommand(arguments);
-            break;
-        case "event":
-            result = parseEventCommand(arguments);
-            break;
-        case "save":
-            result = new SaveCommand();
-            break;
-        case "tag":
-            result = parseTagCommand(arguments);
-            break;
-        case "filter":
-            result = parseFilterCommand(arguments);
-            break;
-        default:
-            throw new ChuckException("Oops! That's not a real Chuck command!");
-        }
+        Command result = switch (commandWord) {
+            case "bye" -> ByeCommand.parse(arguments);
+            case "list" -> ListCommand.parse(arguments);
+            case "find" -> FindCommand.parse(arguments);
+            case "delete" -> DeleteCommand.parse(arguments);
+            case "mark" -> MarkCommand.parse(arguments);
+            case "unmark" -> UnmarkCommand.parse(arguments);
+            case "todo" -> TodoCommand.parse(arguments);
+            case "deadline" -> DeadlineCommand.parse(arguments);
+            case "event" -> EventCommand.parse(arguments);
+            case "save" -> SaveCommand.parse(arguments);
+            case "tag" -> TagCommand.parse(arguments);
+            case "filter" -> FilterCommand.parse(arguments);
+            default -> throw new ChuckException("Oops! That's not a real Chuck command!");
+        };
 
         assert result != null : "Parser must return a valid Command object";
         return result;
     }
 
-    /**
-     * Parses deadline command arguments and creates a DeadlineCommand.
-     *
-     * @param arguments the arguments for the deadline command
-     * @return DeadlineCommand object
-     * @throws ChuckException if the format is invalid
-     */
-    private static DeadlineCommand parseDeadlineCommand(String arguments) throws ChuckException {
-        if (!arguments.contains("/by ")) {
-            throw new ChuckException("Ensure you have a /by date for deadline tasks!");
-        }
-
-        String description = arguments.substring(0, arguments.indexOf("/by ")).trim();
-        String dueDate = arguments.substring(arguments.indexOf("/by ") + 4).trim();
-        return new DeadlineCommand(description, dueDate);
-    }
-
-    /**
-     * Parses event command arguments and creates an EventCommand.
-     *
-     * @param arguments the arguments for the event command
-     * @return EventCommand object
-     * @throws ChuckException if the format is invalid
-     */
-    private static EventCommand parseEventCommand(String arguments) throws ChuckException {
-        if (!arguments.contains("/from ")) {
-            throw new ChuckException("Ensure you have a /from date for event tasks!");
-        }
-        if (!arguments.contains("/to ")) {
-            throw new ChuckException("Ensure you have a /to date for event tasks!");
-        }
-
-        String description = arguments.substring(0, arguments.indexOf("/from ")).trim();
-        String startDate = arguments.substring(arguments.indexOf("/from ") + 6, arguments.indexOf("/to ")).trim();
-        String endDate = arguments.substring(arguments.indexOf("/to ") + 4).trim();
-        return new EventCommand(description, startDate, endDate);
-    }
 
     /**
      * Converts date/time string to LocalDateTime using input format.
@@ -164,44 +85,4 @@ public class Parser {
         return dateTime.format(INPUT_FORMATTER);
     }
 
-    /**
-     * Parses tag command arguments and creates a TagCommand.
-     *
-     * @param arguments the arguments for the tag command
-     * @return TagCommand object
-     * @throws ChuckException if the format is invalid
-     */
-    private static TagCommand parseTagCommand(String arguments) throws ChuckException {
-        if (arguments.trim().isEmpty()) {
-            throw new ChuckException("Tag command requires a task number and tags! Usage: tag <task_number> <tags>");
-        }
-
-        String[] parts = arguments.trim().split(" ", 2);
-        if (parts.length < 2) {
-            throw new ChuckException("Tag command requires a task number and tags! Usage: tag <task_number> <tags>");
-        }
-
-        try {
-            int taskNumber = Integer.parseInt(parts[0].trim());
-            String tagString = parts[1].trim();
-            return new TagCommand(taskNumber, tagString);
-        } catch (NumberFormatException e) {
-            throw new ChuckException("Please provide a valid task number for tag command!");
-        }
-    }
-
-    /**
-     * Parses filter command arguments and creates a FilterCommand.
-     *
-     * @param arguments the arguments for the filter command
-     * @return FilterCommand object
-     * @throws ChuckException if the format is invalid
-     */
-    private static FilterCommand parseFilterCommand(String arguments) throws ChuckException {
-        if (arguments.trim().isEmpty()) {
-            throw new ChuckException("Filter command requires a tag! Usage: filter <tag>");
-        }
-
-        return new FilterCommand(arguments.trim());
-    }
 }

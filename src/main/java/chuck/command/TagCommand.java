@@ -48,6 +48,32 @@ public class TagCommand extends Command {
     }
 
     /**
+     * Parses arguments for the tag command.
+     *
+     * @param arguments the arguments containing task_number and tags
+     * @return a new TagCommand instance
+     * @throws ChuckException if the format is invalid
+     */
+    public static TagCommand parse(String arguments) throws ChuckException {
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("Tag command requires a task number and tags! Usage: tag <task_number> <tags>");
+        }
+
+        String[] parts = arguments.trim().split(" ", 2);
+        if (parts.length < 2) {
+            throw new ChuckException("Tag command requires a task number and tags! Usage: tag <task_number> <tags>");
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(parts[0].trim());
+            String tagString = parts[1].trim();
+            return new TagCommand(taskNumber, tagString);
+        } catch (NumberFormatException e) {
+            throw new ChuckException("Please provide a valid task number for tag command!");
+        }
+    }
+
+    /**
      * Executes the tag command by adding or removing tags from the specified task.
      *
      * @param tasks the task list containing the task to tag
