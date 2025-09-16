@@ -33,7 +33,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.prefWidthProperty().bind(scrollPane.widthProperty());
+        dialogContainer.prefWidthProperty().bind(scrollPane.widthProperty().subtract(20));
     }
 
     /** Injects the Chuck instance and displays the welcome message */
@@ -54,9 +54,17 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = chuck.getResponse(input);
+        DialogBox responseDialog;
+
+        if (response.startsWith("Error: ")) {
+            responseDialog = DialogBox.getErrorDialog(response, chuckImage);
+        } else {
+            responseDialog = DialogBox.getChuckDialog(response, chuckImage);
+        }
+
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getChuckDialog(response, chuckImage)
+                responseDialog
         );
         userInput.clear();
     }

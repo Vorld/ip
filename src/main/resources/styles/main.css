@@ -116,6 +116,22 @@
     -fx-background-radius: 15;
 }
 
+/* Error message styling - red theme for errors */
+.dialog-box.error {
+    -fx-background-color: #ffe6e6;
+    -fx-border-color: #ff4444;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.dialog-box.error .label {
+    -fx-text-fill: #cc0000;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
+}
+
 /* Avatars - round and cute */
 .dialog-box .image-view {
     -fx-effect: dropshadow(gaussian, rgba(139, 69, 19, 0.4), 2, 0.3, 1, 1);
