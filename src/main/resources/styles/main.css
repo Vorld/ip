@@ -18,10 +18,17 @@
     -fx-border-color: #8B4513;
     -fx-border-width: 2;
     -fx-border-radius: 10;
+    -fx-background-radius: 10;
 }
 
 #scrollPane .viewport {
     -fx-background-color: #fef7e0;
+    -fx-background-radius: 8;
+}
+
+#scrollPane .content {
+    -fx-background-color: #fef7e0;
+    -fx-background-radius: 8;
 }
 
 /* Simple scroll bar */
@@ -36,9 +43,9 @@
 
 /* Dialog container */
 #dialogContainer {
-    -fx-background-color: #fef7e0;
-    -fx-padding: 8;
-    -fx-spacing: 10;
+    -fx-padding: 15;
+    -fx-spacing: 12;
+    -fx-fill-width: true;
 }
 
 /* Input field - simple and cute */
@@ -47,8 +54,9 @@
     -fx-border-color: #deb887;
     -fx-border-width: 2;
     -fx-border-radius: 15;
+    -fx-background-radius: 15;
     -fx-font-size: 13px;
-    -fx-padding: 8;
+    -fx-padding: 12 16;
     -fx-prompt-text-fill: #8B7355;
 }
 
@@ -73,9 +81,8 @@
 /* Dialog boxes - speech bubble style */
 .dialog-box {
     -fx-background-radius: 15;
-    -fx-padding: 8;
-    -fx-spacing: 8;
-    -fx-effect: dropshadow(gaussian, rgba(139, 69, 19, 0.3), 3, 0.5, 2, 2);
+    -fx-padding: 12;
+    -fx-spacing: 12;
 }
 
 /* Peppermint Patty (user) - pink/red theme */
@@ -83,11 +90,15 @@
     -fx-background-color: #ffb6c1;
     -fx-border-color: #ff69b4;
     -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
 }
 
 .dialog-box.user .label {
     -fx-text-fill: #8b0000;
     -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
 }
 
 /* Charlie Brown (chuck) - yellow theme */
@@ -95,10 +106,14 @@
     -fx-background-color: #fff8dc;
     -fx-border-color: #daa520;
     -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
 }
 
 .dialog-box.chuck .label {
     -fx-text-fill: #8B4513;
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
 }
 
 /* Avatars - round and cute */
@@ -112,4 +127,5 @@
     -fx-font-size: 13px;
     -fx-text-fill: inherit;
     -fx-background-color: transparent;
+    -fx-wrap-text: true;
 }
