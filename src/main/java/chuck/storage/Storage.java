@@ -25,10 +25,11 @@ import chuck.task.Todo;
  * with error handling for missing or corrupted files.
  */
 public class Storage {
-    private static final String FILE_PATH = "./data";
-    private static final String FILE_NAME = "chuck.txt";
+    private final String filePath;
 
-    // TODO: set file_path and file_name in a constructor
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
 
     /**
      * Loads tasks from file and returns TaskList.
@@ -41,7 +42,7 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<>();
 
         try {
-            File saveFile = new File(FILE_PATH + "/" + FILE_NAME);
+            File saveFile = new File(filePath);
             Scanner in = new Scanner(saveFile);
 
             while (in.hasNextLine()) {
@@ -111,11 +112,12 @@ public class Storage {
      */
     public void saveTasks(TaskList tasks) throws ChuckException {
         try {
-            File directory = new File(FILE_PATH);
-            if (!directory.exists()) {
+            File saveFile = new File(filePath);
+            File directory = saveFile.getParentFile();
+            if (directory != null && !directory.exists()) {
                 directory.mkdirs();
             }
-            PrintWriter out = new PrintWriter(FILE_PATH + "/" + FILE_NAME);
+            PrintWriter out = new PrintWriter(filePath);
             // TODO: Breaking abstraction here kinda.
             tasks.getTasks().stream()
                     .map(Task::saveString)

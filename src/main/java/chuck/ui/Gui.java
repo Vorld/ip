@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * Graphical User Interface class using JavaFX
  */
 public class Gui extends Application {
-    private Chuck chuck = new Chuck();
+    private Chuck chuck = new Chuck("./data/chuck.txt");
 
 
     @Override
@@ -22,6 +22,7 @@ public class Gui extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Gui.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setTitle("Chuck!");
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setChuck(chuck); // inject the Chuck instance
             stage.show();

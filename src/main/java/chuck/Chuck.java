@@ -14,11 +14,13 @@ public class Chuck {
     private TaskList tasks;
 
     /**
-     * Constructor for Chuck application.
+     * Constructor for Chuck application with custom data file path.
      * Initializes the UI, storage, and task list.
+     *
+     * @param filePath the path to the data file
      */
-    public Chuck() {
-        storage = new Storage();
+    public Chuck(String filePath) {
+        storage = new Storage(filePath);
         tasks = new TaskList();
         try {
             tasks = storage.loadTasks();
