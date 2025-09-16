@@ -80,6 +80,10 @@ public class TaskList {
         return tasks.size();
     }
 
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
     /**
      * Returns the underlying ArrayList of tasks.
      *
@@ -96,8 +100,34 @@ public class TaskList {
 
         for (Task t: tasks) {
             s.append("\n" + counter + "." + t);
+            counter++;
         }
 
         return s.toString();
+    }
+
+    /**
+     * Returns a nicely formatted display version of the task list for GUI.
+     *
+     * @return formatted task list with emojis and better spacing
+     */
+    public String toDisplayString() {
+        if (tasks.isEmpty()) {
+            return "No tasks in your list! Time to relax or add some new ones!";
+        }
+
+        StringBuilder display = new StringBuilder();
+        int counter = 1;
+
+        for (Task task : tasks) {
+            display.append(counter).append(". ");
+            display.append(task.toDisplayString());
+            if (counter < tasks.size()) {
+                display.append("\n\n"); // Add spacing between tasks
+            }
+            counter++;
+        }
+
+        return display.toString();
     }
 }

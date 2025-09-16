@@ -62,6 +62,29 @@ public class Todo extends Task {
     }
 
     /**
+     * Returns formatted display string with Todo icon.
+     *
+     * @return nicely formatted todo string for GUI display
+     */
+    @Override
+    public String toDisplayString() {
+        StringBuilder display = new StringBuilder();
+
+        // Status with simple symbols
+        display.append(isDone ? "[✓] " : "[ ] ");
+
+        // Todo icon and description
+        display.append("TODO: ").append(description);
+
+        // Tags with nice formatting
+        if (!tags.isEmpty()) {
+            display.append("\n   Tags: ").append(String.join(", ", tags));
+        }
+
+        return display.toString();
+    }
+
+    /**
      * Creates a Todo from a saved string line.
      *
      * @param line the saved string line in format "T | isDone | description | tags"

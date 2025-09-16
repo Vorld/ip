@@ -61,7 +61,10 @@ public class FilterCommand extends Command {
             
             if (task.hasTag(tag)) {
                 matchCount++;
-                result.append(matchCount).append(". ").append(task.toString()).append("\n");
+                result.append(matchCount).append(". ").append(task.toDisplayString());
+                if (matchCount < tasks.size()) { // Add spacing between tasks
+                    result.append("\n\n");
+                }
             }
         }
 

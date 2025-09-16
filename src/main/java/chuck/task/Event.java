@@ -86,6 +86,33 @@ public class Event extends Task {
     }
 
     /**
+     * Returns formatted display string with Event icon and time period.
+     *
+     * @return nicely formatted event string for GUI display
+     */
+    @Override
+    public String toDisplayString() {
+        StringBuilder display = new StringBuilder();
+
+        // Status with simple symbols
+        display.append(isDone ? "[✓] " : "[ ] ");
+
+        // Event icon and description
+        display.append("EVENT: ").append(description);
+
+        // Time period
+        display.append("\n   From: ").append(Parser.formatDateTime(this.from));
+        display.append("\n   To: ").append(Parser.formatDateTime(this.to));
+
+        // Tags with nice formatting
+        if (!tags.isEmpty()) {
+            display.append("\n   Tags: ").append(String.join(", ", tags));
+        }
+
+        return display.toString();
+    }
+
+    /**
      * Returns formatted string for file storage with event data.
      *
      * @return string representation suitable for saving to file with time range

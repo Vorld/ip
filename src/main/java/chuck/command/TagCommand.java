@@ -123,6 +123,6 @@ public class TagCommand extends Command {
             }
         }
 
-        return message.toString() + "\n" + task.toString();
+        return message.toString() + "\n\n" + task.toDisplayString();
     }
 }

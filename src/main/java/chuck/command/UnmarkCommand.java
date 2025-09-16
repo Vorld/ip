@@ -33,6 +33,6 @@ public class UnmarkCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         tasks.get(taskNumber).unmarkDone();
-        return "OK, I've marked this task as not done yet:\n" + tasks.get(taskNumber);
+        return "OK, I've marked this task as not done yet:\n\n" + tasks.get(taskNumber).toDisplayString();
     }
 }
