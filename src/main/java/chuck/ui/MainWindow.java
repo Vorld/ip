@@ -28,22 +28,21 @@ public class MainWindow extends AnchorPane {
     private Image chuckImage = new Image(this.getClass().getResourceAsStream("/images/Chuck.jpg"));
 
     /**
-     * Initialise the GUI with a welcome message.
+     * Initialise the GUI
      */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-
-        // TODO: Kind of breaking the abstraction here.
-        String welcomeMessage = "Hello! I'm Chuck\nWhat can I do for you?";
-        dialogContainer.getChildren().add(
-            DialogBox.getChuckDialog(welcomeMessage, chuckImage)
-        );
     }
 
-    /** Injects the Chuck instance */
+    /** Injects the Chuck instance and displays the welcome message */
     public void setChuck(Chuck d) {
         chuck = d;
+
+        //
+        dialogContainer.getChildren().add(
+            DialogBox.getChuckDialog(chuck.getWelcomeMessage(), chuckImage)
+        );
     }
 
     /**

@@ -45,6 +45,13 @@ public class Chuck {
     }
 
     /**
+     * Returns welcome message to display on initialisation
+     */
+    public String getWelcomeMessage() {
+        return "Hello! I'm Chuck\nWhat can I do for you?";
+    }
+
+    /**
      * Entry point of the Chuck application.
      *
      * @param args command line arguments
