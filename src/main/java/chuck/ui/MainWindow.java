@@ -1,6 +1,7 @@
 package chuck.ui;
 
 import chuck.Chuck;
+import chuck.ChuckException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -56,7 +57,7 @@ public class MainWindow extends AnchorPane {
         String response = chuck.getResponse(input);
         DialogBox responseDialog;
 
-        if (response.startsWith("You blockhead! ")) {
+        if (response.startsWith(ChuckException.ERROR_PREFIX)) {
             responseDialog = DialogBox.getErrorDialog(response, chuckImage);
         } else {
             responseDialog = DialogBox.getChuckDialog(response, chuckImage);
