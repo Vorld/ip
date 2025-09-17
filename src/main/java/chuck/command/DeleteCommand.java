@@ -33,6 +33,11 @@ public class DeleteCommand extends Command {
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new ChuckException("Task number " + taskNumber + " doesn't exist! You only have "
+                    + tasks.size() + " tasks.");
+        }
+
         Task deletedTask = tasks.get(taskNumber);
         tasks.delete(taskNumber);
         return "Poof! Gone forever. Removed this task:\n" + deletedTask;

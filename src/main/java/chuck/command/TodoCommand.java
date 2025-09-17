@@ -23,14 +23,15 @@ public class TodoCommand extends Command {
      * @throws ChuckException if the description is empty
      */
     public static TodoCommand parse(String arguments) throws ChuckException {
-        return new TodoCommand(arguments);
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("Your description can't be empty :(");
+        }
+        return new TodoCommand(arguments.trim());
     }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
-        if (description.isEmpty()) {
-            throw new ChuckException("Your description can't be empty :(");
-        }
+        assert description != null && !description.isEmpty() : "Description should be validated in parse()";
 
         tasks.add(new Todo(description));
         Task addedTask = tasks.get(tasks.size());

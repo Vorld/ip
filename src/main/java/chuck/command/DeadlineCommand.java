@@ -38,20 +38,31 @@ public class DeadlineCommand extends Command {
             throw new ChuckException("Ensure you have a /by date for deadline tasks!");
         }
 
-        String description = arguments.substring(0, arguments.indexOf("/by ")).trim();
-        String dueDate = arguments.substring(arguments.indexOf("/by ") + 4).trim();
+        int byIndex = arguments.indexOf("/by ");
+        if (byIndex == 0) {
+            throw new ChuckException("Your description can't be empty :(");
+        }
+        if (byIndex + 4 >= arguments.length()) {
+            throw new ChuckException("Your by date can't be empty :(");
+        }
+
+        String description = arguments.substring(0, byIndex).trim();
+        String dueDate = arguments.substring(byIndex + 4).trim();
+
+        if (description.isEmpty()) {
+            throw new ChuckException("Your description can't be empty :(");
+        }
+        if (dueDate.isEmpty()) {
+            throw new ChuckException("Your by date can't be empty :(");
+        }
+
         return new DeadlineCommand(description, dueDate);
     }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
-        if (description.isEmpty()) {
-            throw new ChuckException("Your description can't be empty :(");
-        }
-
-        if (dueDate.isEmpty()) {
-            throw new ChuckException("Your by date can't be empty :(");
-        }
+        assert description != null && !description.isEmpty() : "Description should be validated in parse()";
+        assert dueDate != null && !dueDate.isEmpty() : "Due date should be validated in parse()";
 
         LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
         tasks.add(new Deadline(description, byDateTime));
