@@ -20,6 +20,11 @@ import chuck.task.TaskList;
 public class Storage {
     private final String filePath;
 
+    /**
+     * Create a Storage object
+     *
+     * @param filePath path to save file
+     */
     public Storage(String filePath) {
         assert filePath != null && !filePath.trim().isEmpty() : "File path cannot be null or empty";
         this.filePath = filePath;
@@ -36,7 +41,8 @@ public class Storage {
         try {
             String content = readFileContent();
             return Parser.parseTasksFromFileContent(content);
-        } catch (FileNotFoundException | DateTimeParseException fileNotFoundException) {
+        } catch (FileNotFoundException | DateTimeParseException exception) {
+            // If file not found, handle gracefully.
             return new TaskList(new ArrayList<>());
         }
     }

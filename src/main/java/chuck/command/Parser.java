@@ -157,8 +157,7 @@ public class Parser {
         case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
         case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
         default -> {
-            // TODO: show the error on GUI?
-            System.out.println("Skipping incorrectly formatted line in save file: " + line);
+            // skip if a line is corrupted.
             yield null;
         }
         };
