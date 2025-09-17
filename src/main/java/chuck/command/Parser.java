@@ -69,6 +69,7 @@ public class Parser {
      * @throws ChuckException if the date/time string format is invalid
      */
     public static LocalDateTime parseDateTime(String dateTimeString) throws ChuckException {
+        assert dateTimeString != null : "Date/time string cannot be null";
         try {
             return LocalDateTime.parse(dateTimeString, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
@@ -83,6 +84,7 @@ public class Parser {
      * @return formatted string in "MMM dd yyyy h:mma" format for display
      */
     public static String formatDateTime(LocalDateTime dateTime) {
+        assert dateTime != null : "DateTime cannot be null";
         return dateTime.format(OUTPUT_FORMATTER);
     }
 
@@ -93,6 +95,7 @@ public class Parser {
      * @return formatted string in "yyyy-MM-dd HH:mm" format for file storage
      */
     public static String formatDateTimeForSave(LocalDateTime dateTime) {
+        assert dateTime != null : "DateTime cannot be null";
         return dateTime.format(INPUT_FORMATTER);
     }
 
@@ -103,6 +106,7 @@ public class Parser {
      * @return Set of individual tags, empty set if tagString is empty
      */
     public static Set<String> parseTags(String tagString) {
+        assert tagString != null : "Tag string cannot be null";
         return tagString.isEmpty() ? new HashSet<>()
                 : new HashSet<>(Arrays.asList(tagString.split(",")));
     }
@@ -115,6 +119,7 @@ public class Parser {
      * @throws ChuckException if there are critical parsing errors
      */
     public static TaskList parseTasksFromFileContent(String content) throws ChuckException {
+        assert content != null : "File content cannot be null";
         ArrayList<Task> tasks = new ArrayList<>();
 
         String[] lines = content.split("\n");
@@ -127,6 +132,7 @@ public class Parser {
             if (task != null) {
                 tasks.add(task);
             }
+            // TODO: What do we do if it IS null?
         }
 
         return new TaskList(tasks);

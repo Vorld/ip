@@ -21,6 +21,7 @@ public class Storage {
     private final String filePath;
 
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path cannot be null or empty";
         this.filePath = filePath;
     }
 
@@ -67,6 +68,7 @@ public class Storage {
      * @throws ChuckException if there are errors during the save operation
      */
     public void saveTasks(TaskList tasks) throws ChuckException {
+        assert tasks != null : "TaskList cannot be null";
         try {
             File saveFile = new File(filePath);
             File directory = saveFile.getParentFile();

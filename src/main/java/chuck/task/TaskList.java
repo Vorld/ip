@@ -31,7 +31,7 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
-        // TODO: Check for null here instead
+        assert task != null : "Task cannot be null";
         tasks.add(task);
     }
 
@@ -41,6 +41,8 @@ public class TaskList {
      * @param taskNumber the position of the task to remove (1-indexed)
      */
     public void delete(int taskNumber) {
+        assert taskNumber >= 1 && taskNumber <= tasks.size()
+            : "Task number must be between 1 and " + tasks.size() + ", got: " + taskNumber;
         tasks.remove(taskNumber - 1);
     }
 
@@ -51,6 +53,8 @@ public class TaskList {
      * @return the task at the specified position
      */
     public Task get(int taskNumber) {
+        assert taskNumber >= 1 && taskNumber <= tasks.size()
+            : "Task number must be between 1 and " + tasks.size() + ", got: " + taskNumber;
         return tasks.get(taskNumber - 1);
     }
 
@@ -61,6 +65,7 @@ public class TaskList {
      * @return a TaskList of tasks that match the string
      */
     public TaskList find(String searchString) {
+        assert searchString != null : "Search string cannot be null";
         TaskList matchingTasks = new TaskList();
 
         for (Task t: tasks) {

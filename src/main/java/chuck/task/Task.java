@@ -86,10 +86,12 @@ public abstract class Task {
     }
 
     public void addTag(String tag) {
+        assert tag != null && !tag.trim().isEmpty() : "Tag cannot be null or empty";
         this.tags.add(tag);
     }
 
     public void removeTag(String tag) {
+        assert tag != null : "Tag cannot be null";
         this.tags.remove(tag);
     }
 
@@ -98,6 +100,7 @@ public abstract class Task {
     }
 
     public boolean hasTag(String tag) {
+        assert tag != null : "Tag cannot be null";
         return this.tags.contains(tag);
     }
 
