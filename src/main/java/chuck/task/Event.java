@@ -136,8 +136,8 @@ public class Event extends Task {
         String tagString = data[3].trim();
         String startDate = data[4].trim();
         String endDate = data[5].trim();
-        Set<String> tags = tagString.isEmpty() ? new HashSet<>() :
-            new HashSet<>(Arrays.asList(tagString.split(",")));
+        Set<String> tags = tagString.isEmpty() ? new HashSet<>()
+                : new HashSet<>(Arrays.asList(tagString.split(",")));
 
         LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
         LocalDateTime toDateTime = Parser.parseDateTime(endDate);

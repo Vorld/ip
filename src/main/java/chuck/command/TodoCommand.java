@@ -34,7 +34,8 @@ public class TodoCommand extends Command {
 
         tasks.add(new Todo(description));
         Task addedTask = tasks.get(tasks.size());
-        return "Rats! Another task, but I've got it covered:\n\n" + addedTask.toDisplayString() +
-                "\n\nNow you have " + tasks.size() + " tasks in the list.";
+        return "Rats! Another task, but I've got it covered:\n\n"
+                + addedTask.toDisplayString()
+                + "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

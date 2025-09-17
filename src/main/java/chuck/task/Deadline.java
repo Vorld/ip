@@ -111,8 +111,8 @@ public class Deadline extends Task {
         String description = data[2].trim();
         String tagString = data[3].trim();
         String dueDate = data[4].trim();
-        Set<String> tags = tagString.isEmpty() ? new HashSet<>() :
-            new HashSet<>(Arrays.asList(tagString.split(",")));
+        Set<String> tags = tagString.isEmpty() ? new HashSet<>()
+                : new HashSet<>(Arrays.asList(tagString.split(",")));
 
         LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
         return new Deadline(description, isDone, byDateTime, tags);

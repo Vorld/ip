@@ -95,8 +95,8 @@ public class Todo extends Task {
         boolean isDone = Boolean.parseBoolean(data[1].trim());
         String description = data[2].trim();
         String tagString = data[3].trim();
-        Set<String> tags = tagString.isEmpty() ? new HashSet<>() :
-            new HashSet<>(Arrays.asList(tagString.split(",")));
+        Set<String> tags = tagString.isEmpty() ? new HashSet<>()
+                : new HashSet<>(Arrays.asList(tagString.split(",")));
 
         return new Todo(description, isDone, tags);
     }

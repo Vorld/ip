@@ -7,8 +7,8 @@ import chuck.task.TaskList;
 
 /**
  * Command to add or remove tags from a task.
- * Usage: tag <task_number> <tag1,tag2,tag3>
- * To remove tags, prefix with minus: tag <task_number> -<tag1,tag2>
+ * Usage: tag [task_number] [tag1,tag2,tag3]
+ * To remove tags, prefix with minus: tag [task_number] -[tag1,tag2]
  */
 public class TagCommand extends Command {
     private final int taskNumber;

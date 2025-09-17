@@ -7,7 +7,7 @@ import chuck.task.TaskList;
 
 /**
  * Command to filter tasks by tag.
- * Usage: filter <tag>
+ * Usage: filter [tag]
  * Shows tasks that have the specified tag.
  */
 public class FilterCommand extends Command {
@@ -54,7 +54,9 @@ public class FilterCommand extends Command {
         StringBuilder result = new StringBuilder();
         int matchCount = 0;
 
-        result.append("Rats! Filtering through all this mess... here are the tasks with tag '").append(tag).append("':\n");
+        result.append("Rats! Filtering through all this mess... here are the tasks with tag '")
+                .append(tag)
+                .append("':\n");
 
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i + 1); // TaskList uses 1-based indexing

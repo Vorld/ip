@@ -108,8 +108,8 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        String tagString = tags.isEmpty() ? "" :
-            "#" + String.join(" #", tags);
+        String tagString = tags.isEmpty() ? ""
+                : "#" + String.join(" #", tags);
         return String.format("[%s] %s %s",
                 this.getStatusIcon(),
                 this.description,

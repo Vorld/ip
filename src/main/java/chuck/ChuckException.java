@@ -6,7 +6,7 @@ package chuck;
  * such as invalid commands, empty descriptions, or file operations failures.
  */
 public class ChuckException extends Exception {
-    public static String ERROR_PREFIX = "You blockhead! ";
+    public static final String ERROR_PREFIX = "You blockhead! ";
 
     /**
      * Creates a new ChuckException with the specified error message.
@@ -14,6 +14,7 @@ public class ChuckException extends Exception {
      * @param message detailed message explaining the error
      */
     public ChuckException(String message) {
-        super( ERROR_PREFIX + message);
+        super(ERROR_PREFIX + message);
     }
+
 }

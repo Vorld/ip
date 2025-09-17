@@ -27,7 +27,7 @@ public class StorageTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        storage = new Storage();
+        storage = new Storage("./data/chuck.txt");
         dataDir = new File("./data");
         saveFile = new File("./data/chuck.txt");
 

@@ -31,6 +31,7 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
+        // TODO: Check for null here instead
         tasks.add(task);
     }
 

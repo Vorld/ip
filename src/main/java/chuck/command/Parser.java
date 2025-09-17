@@ -41,19 +41,19 @@ public class Parser {
         String arguments = commandTokens.length > 1 ? commandTokens[1] : "";
 
         Command result = switch (commandWord) {
-            case "bye" -> ByeCommand.parse(arguments);
-            case "list" -> ListCommand.parse(arguments);
-            case "find" -> FindCommand.parse(arguments);
-            case "delete" -> DeleteCommand.parse(arguments);
-            case "mark" -> MarkCommand.parse(arguments);
-            case "unmark" -> UnmarkCommand.parse(arguments);
-            case "todo" -> TodoCommand.parse(arguments);
-            case "deadline" -> DeadlineCommand.parse(arguments);
-            case "event" -> EventCommand.parse(arguments);
-            case "save" -> SaveCommand.parse(arguments);
-            case "tag" -> TagCommand.parse(arguments);
-            case "filter" -> FilterCommand.parse(arguments);
-            default -> throw new ChuckException("That's not a real Chuck command!");
+        case "bye" -> ByeCommand.parse(arguments);
+        case "list" -> ListCommand.parse(arguments);
+        case "find" -> FindCommand.parse(arguments);
+        case "delete" -> DeleteCommand.parse(arguments);
+        case "mark" -> MarkCommand.parse(arguments);
+        case "unmark" -> UnmarkCommand.parse(arguments);
+        case "todo" -> TodoCommand.parse(arguments);
+        case "deadline" -> DeadlineCommand.parse(arguments);
+        case "event" -> EventCommand.parse(arguments);
+        case "save" -> SaveCommand.parse(arguments);
+        case "tag" -> TagCommand.parse(arguments);
+        case "filter" -> FilterCommand.parse(arguments);
+        default -> throw new ChuckException("That's not a real Chuck command!");
         };
 
         assert result != null : "Parser must return a valid Command object";
@@ -103,8 +103,8 @@ public class Parser {
      * @return Set of individual tags, empty set if tagString is empty
      */
     public static Set<String> parseTags(String tagString) {
-        return tagString.isEmpty() ? new HashSet<>() :
-            new HashSet<>(Arrays.asList(tagString.split(",")));
+        return tagString.isEmpty() ? new HashSet<>()
+                : new HashSet<>(Arrays.asList(tagString.split(",")));
     }
 
     /**
@@ -124,7 +124,9 @@ public class Parser {
             }
 
             Task task = parseTaskFromLine(line);
-            tasks.add(task);
+            if (task != null) {
+                tasks.add(task);
+            }
         }
 
         return new TaskList(tasks);
@@ -145,14 +147,14 @@ public class Parser {
 
         String type = data[0].trim();
         return switch (type) {
-            case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
-            case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
-            case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
-            default -> {
-                // TODO: show the error on GUI?
-                System.out.println("Skipping incorrectly formatted line in save file: " + line);
-                yield null;
-            }
+        case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
+        case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
+        case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
+        default -> {
+            // TODO: show the error on GUI?
+            System.out.println("Skipping incorrectly formatted line in save file: " + line);
+            yield null;
+        }
         };
     }
 
