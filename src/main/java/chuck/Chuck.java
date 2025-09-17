@@ -15,6 +15,7 @@ public class Chuck {
     private Storage storage;
     private TaskList tasks;
     private String loadingWarning;
+    private boolean isExit;
 
     /**
      * Constructor for Chuck application with custom data file path.
@@ -26,6 +27,7 @@ public class Chuck {
         storage = new Storage(filePath);
         tasks = new TaskList();
         loadingWarning = null;
+        isExit = false;
         try {
             tasks = storage.loadTasks();
         } catch (ChuckException ce) {
@@ -42,10 +44,19 @@ public class Chuck {
     public String getResponse(String input) {
         try {
             Command parsedCommand = Parser.parse(input);
-            return parsedCommand.execute(tasks, storage);
+            String response = parsedCommand.execute(tasks, storage);
+            isExit = parsedCommand.isExit();
+            return response;
         } catch (ChuckException e) {
             return e.getMessage();
         }
+    }
+
+    /**
+     * Returns true if the last executed command was an exit command
+     */
+    public boolean isExit() {
+        return isExit;
     }
 
     /**

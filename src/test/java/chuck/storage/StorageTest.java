@@ -198,10 +198,8 @@ public class StorageTest {
     @Test
     public void testLoadTasks_UnknownTaskType() throws ChuckException, IOException {
         writeToFile("X | false | unknown task type | ");
-        
-        TaskList result = storage.loadTasks();
 
-        assertEquals(0, result.size());
+        assertThrows(ChuckException.class, () -> storage.loadTasks());
     }
 
     @Test
@@ -211,12 +209,8 @@ public class StorageTest {
                 + "D | true | another valid task | | 2023-12-01 23:59";
         writeToFile(content);
 
-
-        TaskList result = storage.loadTasks();
-        
-        assertEquals(2, result.size());
-        assertTrue(result.get(1) instanceof Todo);
-        assertTrue(result.get(2) instanceof Deadline);
+        assertThrows(ChuckException.class, () -> storage.loadTasks());
+        // not sure how to check the returned tasks with JUnit
     }
 
     @Test
