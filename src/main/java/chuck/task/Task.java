@@ -85,11 +85,23 @@ public abstract class Task {
         this.isDone = false;
     }
 
+    /**
+     * Add tag to the task
+     *
+     * @param tag tag to be added
+     */
     public void addTag(String tag) {
+        assert tag != null && !tag.trim().isEmpty() : "Tag cannot be null or empty";
         this.tags.add(tag);
     }
 
+    /**
+     * Remove tag from the task
+     *
+     * @param tag tag to be removed
+     */
     public void removeTag(String tag) {
+        assert tag != null : "Tag cannot be null";
         this.tags.remove(tag);
     }
 
@@ -97,7 +109,14 @@ public abstract class Task {
         return this.tags;
     }
 
+    /**
+     * Check if task has input tag
+     *
+     * @param tag tag to check
+     * @return true if this task has the tag
+     */
     public boolean hasTag(String tag) {
+        assert tag != null : "Tag cannot be null";
         return this.tags.contains(tag);
     }
 

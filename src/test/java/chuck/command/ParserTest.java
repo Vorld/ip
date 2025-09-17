@@ -60,8 +60,7 @@ public class ParserTest {
 
     @Test
     public void testParse_TodoCommandEmpty() throws ChuckException {
-        Command result = Parser.parse("todo");
-        assertTrue(result instanceof TodoCommand);
+        assertThrows(ChuckException.class, () -> Parser.parse("todo"));
     }
 
     @Test

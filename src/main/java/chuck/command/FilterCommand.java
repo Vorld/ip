@@ -56,10 +56,10 @@ public class FilterCommand extends Command {
 
         result.append("Rats! Filtering through all this mess... here are the tasks with tag '")
                 .append(tag)
-                .append("':\n");
+                .append("':\n\n");
 
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i + 1); // TaskList uses 1-based indexing
+        for (int i = 1; i <= tasks.size(); i++) {
+            Task task = tasks.get(i); // TaskList uses 1-based indexing
             
             if (task.hasTag(tag)) {
                 matchCount++;

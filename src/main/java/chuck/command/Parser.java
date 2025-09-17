@@ -69,6 +69,7 @@ public class Parser {
      * @throws ChuckException if the date/time string format is invalid
      */
     public static LocalDateTime parseDateTime(String dateTimeString) throws ChuckException {
+        assert dateTimeString != null : "Date/time string cannot be null";
         try {
             return LocalDateTime.parse(dateTimeString, INPUT_FORMATTER);
         } catch (DateTimeParseException e) {
@@ -83,6 +84,7 @@ public class Parser {
      * @return formatted string in "MMM dd yyyy h:mma" format for display
      */
     public static String formatDateTime(LocalDateTime dateTime) {
+        assert dateTime != null : "DateTime cannot be null";
         return dateTime.format(OUTPUT_FORMATTER);
     }
 
@@ -93,6 +95,7 @@ public class Parser {
      * @return formatted string in "yyyy-MM-dd HH:mm" format for file storage
      */
     public static String formatDateTimeForSave(LocalDateTime dateTime) {
+        assert dateTime != null : "DateTime cannot be null";
         return dateTime.format(INPUT_FORMATTER);
     }
 
@@ -103,6 +106,7 @@ public class Parser {
      * @return Set of individual tags, empty set if tagString is empty
      */
     public static Set<String> parseTags(String tagString) {
+        assert tagString != null : "Tag string cannot be null";
         return tagString.isEmpty() ? new HashSet<>()
                 : new HashSet<>(Arrays.asList(tagString.split(",")));
     }
@@ -115,7 +119,9 @@ public class Parser {
      * @throws ChuckException if there are critical parsing errors
      */
     public static TaskList parseTasksFromFileContent(String content) throws ChuckException {
+        assert content != null : "File content cannot be null";
         ArrayList<Task> tasks = new ArrayList<>();
+        int skippedCount = 0; // Keep track of number of skipped lines
 
         String[] lines = content.split("\n");
         for (String line : lines) {
@@ -126,7 +132,14 @@ public class Parser {
             Task task = parseTaskFromLine(line);
             if (task != null) {
                 tasks.add(task);
+            } else {
+                skippedCount++;
             }
+        }
+
+        if (skippedCount > 0) {
+            throw new ChuckException("Loaded " + tasks.size() + " tasks successfully, but skipped "
+                    + skippedCount + " corrupted lines from save file.");
         }
 
         return new TaskList(tasks);
@@ -139,23 +152,24 @@ public class Parser {
      * @return Task instance or null if invalid format
      * @throws ChuckException if parsing fails
      */
-    private static Task parseTaskFromLine(String line) throws ChuckException {
-        String[] data = line.split("\\|");
-        if (data.length == 0) {
+    private static Task parseTaskFromLine(String line) {
+        try {
+            String[] data = line.split("\\|");
+            if (data.length == 0) {
+                return null;
+            }
+
+            String type = data[0].trim();
+            return switch (type) {
+            case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
+            case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
+            case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
+            default -> null;
+            };
+        } catch (ArrayIndexOutOfBoundsException | ChuckException e) {
+            // Skip corrupted save file line
             return null;
         }
-
-        String type = data[0].trim();
-        return switch (type) {
-        case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
-        case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
-        case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
-        default -> {
-            // TODO: show the error on GUI?
-            System.out.println("Skipping incorrectly formatted line in save file: " + line);
-            yield null;
-        }
-        };
     }
 
 }

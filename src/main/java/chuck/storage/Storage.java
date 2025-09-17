@@ -4,8 +4,6 @@ package chuck.storage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import chuck.ChuckException;
@@ -20,7 +18,13 @@ import chuck.task.TaskList;
 public class Storage {
     private final String filePath;
 
+    /**
+     * Create a Storage object
+     *
+     * @param filePath path to save file
+     */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path cannot be null or empty";
         this.filePath = filePath;
     }
 
@@ -35,8 +39,9 @@ public class Storage {
         try {
             String content = readFileContent();
             return Parser.parseTasksFromFileContent(content);
-        } catch (FileNotFoundException | DateTimeParseException fileNotFoundException) {
-            return new TaskList(new ArrayList<>());
+        } catch (FileNotFoundException exception) {
+            // If file not found, handle gracefully.
+            throw new ChuckException("Save file not found!");
         }
     }
 
@@ -67,6 +72,7 @@ public class Storage {
      * @throws ChuckException if there are errors during the save operation
      */
     public void saveTasks(TaskList tasks) throws ChuckException {
+        assert tasks != null : "TaskList cannot be null";
         try {
             File saveFile = new File(filePath);
             File directory = saveFile.getParentFile();

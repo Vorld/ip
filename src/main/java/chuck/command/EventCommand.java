@@ -44,18 +44,26 @@ public class EventCommand extends Command {
             throw new ChuckException("Ensure you have a /to date for event tasks!");
         }
 
-        String description = arguments.substring(0, arguments.indexOf("/from ")).trim();
-        String startDate = arguments.substring(arguments.indexOf("/from ") + 6, arguments.indexOf("/to ")).trim();
-        String endDate = arguments.substring(arguments.indexOf("/to ") + 4).trim();
-        return new EventCommand(description, startDate, endDate);
-    }
-    
-    @Override
-    public String execute(TaskList tasks, Storage storage) throws ChuckException {
+        int fromIndex = arguments.indexOf("/from ");
+        int toIndex = arguments.indexOf("/to ");
+
+        if (fromIndex == 0) {
+            throw new ChuckException("Your description can't be empty :(");
+        }
+        if (toIndex <= fromIndex + 6) {
+            throw new ChuckException("Your from date can't be empty :(");
+        }
+        if (toIndex + 4 >= arguments.length()) {
+            throw new ChuckException("Your to date can't be empty :(");
+        }
+
+        String description = arguments.substring(0, fromIndex).trim();
+        String startDate = arguments.substring(fromIndex + 6, toIndex).trim();
+        String endDate = arguments.substring(toIndex + 4).trim();
+
         if (description.isEmpty()) {
             throw new ChuckException("Your description can't be empty :(");
         }
-
         if (startDate.isEmpty()) {
             throw new ChuckException("Your from date can't be empty :(");
         }
@@ -63,8 +71,22 @@ public class EventCommand extends Command {
             throw new ChuckException("Your to date can't be empty :(");
         }
 
+        return new EventCommand(description, startDate, endDate);
+    }
+    
+    @Override
+    public String execute(TaskList tasks, Storage storage) throws ChuckException {
+        assert description != null && !description.isEmpty() : "Description should be validated in parse()";
+        assert startDate != null && !startDate.isEmpty() : "Start date should be validated in parse()";
+        assert endDate != null && !endDate.isEmpty() : "End date should be validated in parse()";
+
         LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
         LocalDateTime toDateTime = Parser.parseDateTime(endDate);
+
+        if (fromDateTime.isAfter(toDateTime)) {
+            throw new ChuckException("Start date cannot be after end date!");
+        }
+
         tasks.add(new Event(description, fromDateTime, toDateTime));
         Task addedTask = tasks.get(tasks.size());
         return "Good grief, your schedule is filling up! Added this event:\n\n"

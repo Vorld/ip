@@ -22,18 +22,19 @@ public class FindCommand extends Command {
      * @throws ChuckException if the search string is empty
      */
     public static FindCommand parse(String arguments) throws ChuckException {
-        return new FindCommand(arguments);
+        if (arguments.trim().isEmpty()) {
+            throw new ChuckException("You can't search for nothing :(");
+        }
+        return new FindCommand(arguments.trim());
     }
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
-        if (searchString.isEmpty()) {
-            throw new ChuckException("You can't search for nothing :(");
-        }
+        assert searchString != null && !searchString.isEmpty() : "Search string should be validated in parse()";
 
         TaskList matchingTasks = tasks.find(searchString);
 
-        if (matchingTasks.size() > 0) {
+        if (!matchingTasks.isEmpty()) {
             return "Here are the matching tasks in your list:" + matchingTasks;
         } else {
             return "Good grief! Nothing found... maybe try a different search?";

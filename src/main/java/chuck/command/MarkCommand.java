@@ -2,6 +2,7 @@ package chuck.command;
 
 import chuck.ChuckException;
 import chuck.storage.Storage;
+import chuck.task.Task;
 import chuck.task.TaskList;
 
 /**
@@ -32,7 +33,13 @@ public class MarkCommand extends Command {
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
-        tasks.get(taskNumber).markDone();
-        return "You did it, good ol' friend! Marked this task as done:\n\n" + tasks.get(taskNumber).toDisplayString();
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new ChuckException("Task number " + taskNumber + " doesn't exist! You only have "
+                    + tasks.size() + " tasks.");
+        }
+
+        Task task = tasks.get(taskNumber);
+        task.markDone();
+        return "You did it, good ol' friend! Marked this task as done:\n\n" + task.toDisplayString();
     }
 }

@@ -2,6 +2,7 @@ package chuck.command;
 
 import chuck.ChuckException;
 import chuck.storage.Storage;
+import chuck.task.Task;
 import chuck.task.TaskList;
 
 /**
@@ -32,8 +33,14 @@ public class UnmarkCommand extends Command {
     
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
-        tasks.get(taskNumber).unmarkDone();
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new ChuckException("Task number " + taskNumber + " doesn't exist! You only have "
+                    + tasks.size() + " tasks.");
+        }
+
+        Task task = tasks.get(taskNumber);
+        task.unmarkDone();
         return "Sigh... back to square one! I've marked this task as not done yet:\n\n"
-                + tasks.get(taskNumber).toDisplayString();
+                + task.toDisplayString();
     }
 }
