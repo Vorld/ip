@@ -24,6 +24,6 @@ public class ListCommand extends Command {
         if (tasks.isEmpty()) {
             return tasks.toDisplayString();
         }
-        return "Here are your tasks:\n\n" + tasks.toDisplayString();
+        return "I can't stand it... here are all your tasks:\n\n" + tasks.toDisplayString();
     }
 }

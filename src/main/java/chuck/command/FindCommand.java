@@ -28,7 +28,7 @@ public class FindCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         if (searchString.isEmpty()) {
-            throw new ChuckException("Oops! You can't search for nothing :(");
+            throw new ChuckException("You can't search for nothing :(");
         }
 
         TaskList matchingTasks = tasks.find(searchString);
@@ -36,7 +36,7 @@ public class FindCommand extends Command {
         if (matchingTasks.size() > 0) {
             return "Here are the matching tasks in your list:" + matchingTasks;
         } else {
-            return "No matching tasks found :(";
+            return "Good grief! Nothing found... maybe try a different search?";
         }
     }
 }

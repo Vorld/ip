@@ -12,6 +12,6 @@ public class ChuckException extends Exception {
      * @param message detailed message explaining the error
      */
     public ChuckException(String message) {
-        super(message);
+        super( "You blockhead! " + message);
     }
 }

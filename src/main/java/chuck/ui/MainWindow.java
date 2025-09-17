@@ -56,7 +56,7 @@ public class MainWindow extends AnchorPane {
         String response = chuck.getResponse(input);
         DialogBox responseDialog;
 
-        if (response.startsWith("Error: ")) {
+        if (response.startsWith("You blockhead! ")) {
             responseDialog = DialogBox.getErrorDialog(response, chuckImage);
         } else {
             responseDialog = DialogBox.getChuckDialog(response, chuckImage);

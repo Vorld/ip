@@ -46,17 +46,17 @@ public class DeadlineCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         if (description.isEmpty()) {
-            throw new ChuckException("Oops! Your description can't be empty :(");
+            throw new ChuckException("Your description can't be empty :(");
         }
 
         if (dueDate.isEmpty()) {
-            throw new ChuckException("Oops! Your by date can't be empty :(");
+            throw new ChuckException("Your by date can't be empty :(");
         }
 
         LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
         tasks.add(new Deadline(description, byDateTime));
         Task addedTask = tasks.get(tasks.size());
-        return "Got it. I've added this task:\n\n" + addedTask.toDisplayString() +
+        return "Sigh... deadlines, deadlines! But don't worry, I've added:\n\n" + addedTask.toDisplayString() +
                 "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

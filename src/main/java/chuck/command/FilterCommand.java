@@ -54,7 +54,7 @@ public class FilterCommand extends Command {
         StringBuilder result = new StringBuilder();
         int matchCount = 0;
 
-        result.append("Here are the tasks with tag '").append(tag).append("':\n");
+        result.append("Rats! Filtering through all this mess... here are the tasks with tag '").append(tag).append("':\n");
 
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i + 1); // TaskList uses 1-based indexing
@@ -69,7 +69,7 @@ public class FilterCommand extends Command {
         }
 
         if (matchCount == 0) {
-            throw new ChuckException("No tasks found with tag: " + tag);
+            throw new ChuckException("No tasks found with that tag. Maybe you misspelled it?");
         }
 
         return result.toString().trim();

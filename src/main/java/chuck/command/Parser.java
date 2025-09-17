@@ -35,6 +35,7 @@ public class Parser {
     public static Command parse(String input) throws ChuckException {
         assert input != null && !input.trim().isEmpty() : "Input cannot be null or empty";
 
+        // Extract the command work and rest of the arguments from the input.
         String[] commandTokens = input.trim().split(" ", 2);
         String commandWord = commandTokens[0].toLowerCase();
         String arguments = commandTokens.length > 1 ? commandTokens[1] : "";
@@ -52,7 +53,7 @@ public class Parser {
             case "save" -> SaveCommand.parse(arguments);
             case "tag" -> TagCommand.parse(arguments);
             case "filter" -> FilterCommand.parse(arguments);
-            default -> throw new ChuckException("Oops! That's not a real Chuck command!");
+            default -> throw new ChuckException("That's not a real Chuck command!");
         };
 
         assert result != null : "Parser must return a valid Command object";

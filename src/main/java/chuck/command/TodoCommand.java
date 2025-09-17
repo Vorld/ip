@@ -29,12 +29,12 @@ public class TodoCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         if (description.isEmpty()) {
-            throw new ChuckException("Oops! Your description can't be empty :(");
+            throw new ChuckException("Your description can't be empty :(");
         }
 
         tasks.add(new Todo(description));
         Task addedTask = tasks.get(tasks.size());
-        return "Got it. I've added this task:\n\n" + addedTask.toDisplayString() +
+        return "Rats! Another task, but I've got it covered:\n\n" + addedTask.toDisplayString() +
                 "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

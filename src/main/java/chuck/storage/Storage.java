@@ -35,9 +35,7 @@ public class Storage {
         try {
             String content = readFileContent();
             return Parser.parseTasksFromFileContent(content);
-        } catch (FileNotFoundException fileNotFoundException) {
-            return new TaskList(new ArrayList<>());
-        } catch (DateTimeParseException dateTimeParseException) {
+        } catch (FileNotFoundException | DateTimeParseException fileNotFoundException) {
             return new TaskList(new ArrayList<>());
         }
     }
@@ -83,7 +81,7 @@ public class Storage {
 
             out.close();
         } catch (FileNotFoundException fileNotFoundException) {
-            throw new ChuckException("Oops! There was an error saving your file!");
+            throw new ChuckException("There was an error saving your file!");
         }
     }
 }
