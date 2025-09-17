@@ -53,21 +53,21 @@ public class EventCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         if (description.isEmpty()) {
-            throw new ChuckException("Oops! Your description can't be empty :(");
+            throw new ChuckException("Your description can't be empty :(");
         }
 
         if (startDate.isEmpty()) {
-            throw new ChuckException("Oops! Your from date can't be empty :(");
+            throw new ChuckException("Your from date can't be empty :(");
         }
         if (endDate.isEmpty()) {
-            throw new ChuckException("Oops! Your to date can't be empty :(");
+            throw new ChuckException("Your to date can't be empty :(");
         }
 
         LocalDateTime fromDateTime = Parser.parseDateTime(startDate);
         LocalDateTime toDateTime = Parser.parseDateTime(endDate);
         tasks.add(new Event(description, fromDateTime, toDateTime));
         Task addedTask = tasks.get(tasks.size());
-        return "Got it. I've added this task:\n\n" + addedTask.toDisplayString() +
+        return "Good grief, your schedule is filling up! Added this event:\n\n" + addedTask.toDisplayString() +
                 "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

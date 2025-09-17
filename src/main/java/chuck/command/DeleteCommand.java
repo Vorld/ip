@@ -35,6 +35,6 @@ public class DeleteCommand extends Command {
     public String execute(TaskList tasks, Storage storage) throws ChuckException {
         Task deletedTask = tasks.get(taskNumber);
         tasks.delete(taskNumber);
-        return "Noted. I've removed this task:\n" + deletedTask;
+        return "Poof! Gone forever. Removed this task:\n" + deletedTask;
     }
 }

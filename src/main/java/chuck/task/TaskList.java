@@ -113,7 +113,7 @@ public class TaskList {
      */
     public String toDisplayString() {
         if (tasks.isEmpty()) {
-            return "No tasks in your list! Time to relax or add some new ones!";
+            return "Your list is emptier than my lunch bag! Time to add tasks or just relax.";
         }
 
         StringBuilder display = new StringBuilder();

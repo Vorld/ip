@@ -40,7 +40,7 @@ public class Chuck {
             Command parsedCommand = Parser.parse(input);
             return parsedCommand.execute(tasks, storage);
         } catch (ChuckException e) {
-            return "Error: " + e.getMessage();
+            return e.getMessage();
         }
     }
 
@@ -48,7 +48,7 @@ public class Chuck {
      * Returns welcome message to display on initialisation
      */
     public String getWelcomeMessage() {
-        return "Hello! I'm Chuck\nWhat can I do for you?";
+        return "Good grief! It's me, Chuck. What can I help you with today?";
     }
 
     /**
