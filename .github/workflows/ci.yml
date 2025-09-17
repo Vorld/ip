@@ -41,7 +41,8 @@ jobs:
       - name: Install dos2unix on macOS
         if: runner.os == 'macOS'
         run: brew install dos2unix
-
+#       Credit to https://github.com/ngmhprogramming/ip/issues for pointing out
+#       that the below should be commented.
 #      - name: Perform IO redirection test (*NIX or macOS)
 #        if: runner.os == 'Linux' || runner.os == 'macOS'
 #        working-directory: ${{ github.workspace }}/text-ui-test
