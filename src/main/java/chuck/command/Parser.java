@@ -121,6 +121,7 @@ public class Parser {
     public static TaskList parseTasksFromFileContent(String content) throws ChuckException {
         assert content != null : "File content cannot be null";
         ArrayList<Task> tasks = new ArrayList<>();
+        int skippedCount = 0; // Keep track of number of skipped lines
 
         String[] lines = content.split("\n");
         for (String line : lines) {
@@ -131,8 +132,14 @@ public class Parser {
             Task task = parseTaskFromLine(line);
             if (task != null) {
                 tasks.add(task);
+            } else {
+                skippedCount++;
             }
-            // TODO: What do we do if it IS null?
+        }
+
+        if (skippedCount > 0) {
+            throw new ChuckException("Loaded " + tasks.size() + " tasks successfully, but skipped "
+                    + skippedCount + " corrupted lines from save file.");
         }
 
         return new TaskList(tasks);
@@ -145,22 +152,24 @@ public class Parser {
      * @return Task instance or null if invalid format
      * @throws ChuckException if parsing fails
      */
-    private static Task parseTaskFromLine(String line) throws ChuckException {
-        String[] data = line.split("\\|");
-        if (data.length == 0) {
+    private static Task parseTaskFromLine(String line) {
+        try {
+            String[] data = line.split("\\|");
+            if (data.length == 0) {
+                return null;
+            }
+
+            String type = data[0].trim();
+            return switch (type) {
+            case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
+            case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
+            case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
+            default -> null;
+            };
+        } catch (ArrayIndexOutOfBoundsException | ChuckException e) {
+            // Skip corrupted save file line
             return null;
         }
-
-        String type = data[0].trim();
-        return switch (type) {
-        case Todo.TYPE_SYMBOL -> Todo.fromSaveString(line);
-        case Deadline.TYPE_SYMBOL -> Deadline.fromSaveString(line);
-        case Event.TYPE_SYMBOL -> Event.fromSaveString(line);
-        default -> {
-            // skip if a line is corrupted.
-            yield null;
-        }
-        };
     }
 
 }

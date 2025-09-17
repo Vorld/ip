@@ -41,10 +41,18 @@ public class MainWindow extends AnchorPane {
     public void setChuck(Chuck d) {
         chuck = d;
 
-        //
+        // Show welcome message
         dialogContainer.getChildren().add(
             DialogBox.getChuckDialog(chuck.getWelcomeMessage(), chuckImage)
         );
+
+        // Show loading warning if there was one
+        String loadingWarning = chuck.getLoadingWarning();
+        if (loadingWarning != null) {
+            dialogContainer.getChildren().add(
+                DialogBox.getErrorDialog(loadingWarning, chuckImage)
+            );
+        }
     }
 
     /**

@@ -14,6 +14,7 @@ import javafx.application.Application;
 public class Chuck {
     private Storage storage;
     private TaskList tasks;
+    private String loadingWarning;
 
     /**
      * Constructor for Chuck application with custom data file path.
@@ -24,10 +25,13 @@ public class Chuck {
     public Chuck(String filePath) {
         storage = new Storage(filePath);
         tasks = new TaskList();
+        loadingWarning = null;
         try {
             tasks = storage.loadTasks();
         } catch (ChuckException ce) {
-            // Start with empty task list if loading fails
+            // Start with empty task list if loading fails, but remember the warning
+            tasks = new TaskList();
+            loadingWarning = ce.getMessage();
         }
     }
 
@@ -49,6 +53,13 @@ public class Chuck {
      */
     public String getWelcomeMessage() {
         return "Good grief! It's me, Chuck. What can I help you with today?";
+    }
+
+    /**
+     * Returns loading warning message if there were issues loading tasks, null otherwise
+     */
+    public String getLoadingWarning() {
+        return loadingWarning;
     }
 
     /**

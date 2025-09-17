@@ -41,9 +41,9 @@ public class Storage {
         try {
             String content = readFileContent();
             return Parser.parseTasksFromFileContent(content);
-        } catch (FileNotFoundException | DateTimeParseException exception) {
+        } catch (FileNotFoundException exception) {
             // If file not found, handle gracefully.
-            return new TaskList(new ArrayList<>());
+            throw new ChuckException("Save file not found!");
         }
     }
 
