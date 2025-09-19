@@ -41,7 +41,7 @@ public class Storage {
             return Parser.parseTasksFromFileContent(content);
         } catch (FileNotFoundException exception) {
             // If file not found, handle gracefully.
-            throw new ChuckException("Save file not found!");
+            throw new ChuckException("Save file not found! Continuing anyways...");
         }
     }
 
