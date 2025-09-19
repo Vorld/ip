@@ -13,4 +13,5 @@ In particular, I used Claude Code to
 * Improve the GUI (branch-A-BetterGui)
 * Improve the error handling (branch-A-MoreErrorHandling)
 * Write the User Guide
+* Add the autosave feature
 

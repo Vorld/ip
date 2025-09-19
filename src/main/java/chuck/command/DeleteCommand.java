@@ -40,6 +40,7 @@ public class DeleteCommand extends Command {
 
         Task deletedTask = tasks.get(taskNumber);
         tasks.delete(taskNumber);
+        autoSave(tasks, storage);
         return "Poof! Gone forever. Removed this task:\n" + deletedTask;
     }
 }

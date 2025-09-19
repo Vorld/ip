@@ -67,6 +67,7 @@ public class DeadlineCommand extends Command {
         LocalDateTime byDateTime = Parser.parseDateTime(dueDate);
         tasks.add(new Deadline(description, byDateTime));
         Task addedTask = tasks.get(tasks.size());
+        autoSave(tasks, storage);
         return "Sigh... deadlines, deadlines! But don't worry, I've added:\n\n"
                 + addedTask.toDisplayString()
                 + "\n\nNow you have " + tasks.size() + " tasks in the list.";

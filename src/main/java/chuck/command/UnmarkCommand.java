@@ -40,6 +40,7 @@ public class UnmarkCommand extends Command {
 
         Task task = tasks.get(taskNumber);
         task.unmarkDone();
+        autoSave(tasks, storage);
         return "Sigh... back to square one! I've marked this task as not done yet:\n\n"
                 + task.toDisplayString();
     }

@@ -40,6 +40,7 @@ public class MarkCommand extends Command {
 
         Task task = tasks.get(taskNumber);
         task.markDone();
+        autoSave(tasks, storage);
         return "You did it, good ol' friend! Marked this task as done:\n\n" + task.toDisplayString();
     }
 }

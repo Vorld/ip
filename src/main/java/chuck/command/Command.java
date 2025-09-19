@@ -30,4 +30,16 @@ public abstract class Command {
     public boolean isExit() {
         return false;
     }
+
+    /**
+     * Helper method to automatically save tasks after modification.
+     * Should be called by commands that modify the task list.
+     *
+     * @param tasks the task list to save
+     * @param storage the storage system for persistence
+     * @throws ChuckException if there are errors during save
+     */
+    protected void autoSave(TaskList tasks, Storage storage) throws ChuckException {
+        storage.saveTasks(tasks);
+    }
 }

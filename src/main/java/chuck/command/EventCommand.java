@@ -89,6 +89,7 @@ public class EventCommand extends Command {
 
         tasks.add(new Event(description, fromDateTime, toDateTime));
         Task addedTask = tasks.get(tasks.size());
+        autoSave(tasks, storage);
         return "Good grief, your schedule is filling up! Added this event:\n\n"
                 + addedTask.toDisplayString()
                 + "\n\nNow you have " + tasks.size() + " tasks in the list.";
